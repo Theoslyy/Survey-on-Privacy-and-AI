@@ -19,9 +19,8 @@
 %\renewcommand\UrlFont{\color{blue}\rmfamily}
 %\urlstyle{rm}
 %
-\begin{document}
 %
-\title{Contribution Title}
+\title{Survey em IA e Segurança}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -33,21 +32,20 @@ Lucas Pinheiro \and
 Rafael Porto \and 
 Théo Araújo}
 %
-\authorrunning{F. Author et al.}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
 %
 \institute{Universidade Federal do Ceará}
 %
-\maketitle              % typeset the header of the contribution
+\titlerunning{Survey em IA e Segurança}
+\authorrunning{D. Iury et al.}
+\begin{document}
+\maketitle
 %
 \begin{abstract}
 Nós resume as coisas aqui.
 \keywords{IA  \and Segurança \and  Machine Learning.}
 \end{abstract}
-%
-%
-%
 \section{Introdução}
 IA é muito popular. 
 Porém, precisamos de muitos dados para treinar modelos.
@@ -63,12 +61,54 @@ Differential privacy (é uma técnica que visa proteger a privacidade dos usuár
 por meio da adição de ruído nos dados sendo analisados) \newline
 Machine Unlearning (esquecer dados de usuários que foram usados para treinar modelos de 
 forma que isso não prejudique o aprendizado do algoritmo).
-
 \subsection{Contextualização}
 Deixei aqui para ser o template inicial. 
 Quando forem escrever,
 É legal dar enter a cada oração
 Para que fique dividido direito e fique fácil de ler.
+\section{Caracterização Ferramental}
+\subsection{Machine unlearning}
+woow
+\subsection{Differential privacy}
+woow
+\subsection{Federated learning}
+\textbf{Contexto.}
+É comum que algoritmos clássicos de aprendizado de máquina
+mantenham centralizados os dados a serem
+usados para treinamento. Isso se deve ao fato de que, frequentemente, os dados 
+encontram-se dispersos em \"{}ilhas de dados\"{}\footnote{to-do referencia.}, então,
+é necessário que seja feito um trabalho de captação e agrupamento em um servidor para que o uso em treinamento seja possível. 
+No entanto, caso não seja feita de forma adequada, 
+essa centralização facilita o vazamento de dados sensíveis.
+Em vista dessa situação, 
+diversas regulações vem sendo impostas com relação à captação e ao uso de dados para treinamento de modelos,
+tornando o uso de técnicas de aprendizado de máquina centralizado de difícil implementação prática. 
+Nesse contexto, a aplicação do federated learning possibilita com que o treinamento seja feito de forma local, 
+não-centralizada, de forma que os dados de um usuário específico mantém-se somente no seu dispositivo local.  
+\newline\textbf{Definindo.}
+In the practical application scenario [8], it is assumed that
+N users \{{}U1, $\cdots$, Un\}{} own their own database {D1, $\cdots$, Dn}, and
+each of them cannot directly access to other people's data to
+expand their own data. As shown in Fig. 1, federated learning is to
+learn a model by collecting training information from distributed
+devices. It contains three basic steps [10]: (1) Server sends the
+initial model to each device. (2) The device Ui does not need to
+share its own source data, but can federally train its own model
+Wi with the local data Di. (3) Server aggregates the collected local
+models \{{}W1, $\cdots$, Wn\}{} to the global model W\'{}, and then update 
+global model to replace each user's local model. With the rapid
+development of federated learning, the efficiency and accuracy
+of federated training models are getting closer and closer to
+centralized training models [11]. It is playing an important role
+in many areas that need to take into account privacy. 
+\newline\textbf{Tipos.} 
+1. Com relação à partição dos dados.
+2. Com relação à mecanismos de privacidade
+3. Com relação ao modelo de ML aplicado 
+4. Com relação ao método de solucionar heterogênidade. 
+\newline\textbf{Aplicações práticas.}
+
+\section{Desafios}
 
 % ---- Bibliography ----
 %
@@ -78,6 +118,6 @@ Para que fique dividido direito e fique fácil de ler.
 % \bibliographystyle{splncs04}
 % \bibliography{mybibliography}
 %
-\begin{thebibliography}{8}
-\end{thebibliography}
+% \begin{thebibliography}{8}
+% \end{thebibliography}
 \end{document}
