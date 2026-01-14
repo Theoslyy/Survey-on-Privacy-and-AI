@@ -86,26 +86,39 @@ tornando o uso de técnicas de aprendizado de máquina centralizado de difícil 
 Nesse contexto, a aplicação do federated learning possibilita com que o treinamento seja feito de forma local, 
 não-centralizada, de forma que os dados de um usuário específico mantém-se somente no seu dispositivo local.  
 \newline\textbf{Definindo.}
-In the practical application scenario [8], it is assumed that
-N users \{{}U1, $\cdots$, Un\}{} own their own database {D1, $\cdots$, Dn}, and
-each of them cannot directly access to other people's data to
-expand their own data. As shown in Fig. 1, federated learning is to
-learn a model by collecting training information from distributed
-devices. It contains three basic steps [10]: (1) Server sends the
-initial model to each device. (2) The device Ui does not need to
-share its own source data, but can federally train its own model
-Wi with the local data Di. (3) Server aggregates the collected local
-models \{{}W1, $\cdots$, Wn\}{} to the global model W\'{}, and then update 
-global model to replace each user's local model. With the rapid
-development of federated learning, the efficiency and accuracy
-of federated training models are getting closer and closer to
-centralized training models [11]. It is playing an important role
-in many areas that need to take into account privacy. 
-\newline\textbf{Tipos.} 
-1. Com relação à partição dos dados.
-2. Com relação à mecanismos de privacidade
-3. Com relação ao modelo de ML aplicado 
-4. Com relação ao método de solucionar heterogênidade. 
+Em sua essência, o federated learning é uma técnica de aprendizado distribuído, ou seja,
+ao invés de consolidarmos dados de usuário em um servidor central para treinar um modelo, haverão focos
+locais de treinamento. 
+Assim, evitando a captação de dados sensíveis, 
+o servidor envia um modelo de treinamento para cada dispositivo individual,
+mantendo a fase de treinamento como uma etapa local. Cada dispositivo somente retornará ao servidor 
+central seu modelo treinado localmente e atualizará o seu modelo interno conforme as atualizações no modelo global.
+Federated learning, dessa forma, garante que dados locais não possam ser vazados e, a fim de não violar 
+leis gerais de proteção de dados, a troca de parâmetros entre clientes locais e o servidor 
+para a geração de um modelo global é feita através de mecanismos criptografados.\footnote{botar uma figura aqui}
+% In the practical application scenario [8], it is assumed that
+% N users \{{}U1, $\cdots$, Un\}{} own their own database {D1, $\cdots$, Dn}, and
+% each of them cannot directly access to other people's data to
+% expand their own data. As shown in Fig. 1, federated learning is to
+% learn a model by collecting training information from distributed
+% devices. It contains three basic steps [10]: (1) Server sends the
+% initial model to each device. (2) The device Ui does not need to
+% share its own source data, but can federally train its own model
+% Wi with the local data Di. (3) Server aggregates the collected local
+% models \{{}W1, $\cdots$, Wn\}{} to the global model W\'{}, and then update 
+% global model to replace each user's local model. With the rapid
+% development of federated learning, the efficiency and accuracy
+% of federated training models are getting closer and closer to
+% centralized training models [11]. It is playing an important role
+% in many areas that need to take into account privacy. 
+\newline\textbf{Tipos.}
+\newline\textit{1. Com relação à partição dos dados.}\newline
+a. Sistemas que fornecem os dados tem usuários muitos diferentes, mas features parecidas
+b. Sistemas tem features muito diversas, mas usuários muito parecidos
+c. Sistemas fornecem dados muito incompatíveis (features e usuários diferentes) ou insuficientes. 
+\newline\textit{2. Com relação à mecanismos de privacidade}\newline
+\newline\textit{3. Com relação ao modelo de ML aplicado}\newline
+\newline\textit{4. Com relação ao método de solucionar heterogênidade.}\newline
 \newline\textbf{Aplicações práticas.}
 
 \section{Desafios}
