@@ -3,3 +3,5 @@ survey.fdb_latexmk
 survey.fls
 survey.log
 survey.synctex.gz
+survey.blg
+survey.bbl
