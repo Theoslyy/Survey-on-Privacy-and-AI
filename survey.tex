@@ -13,6 +13,8 @@
 % Other font encondings may result in incorrect characters.
 %
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -76,13 +78,16 @@ woow
 woow
 \newpage
 \subsection{Federated learning}
-\textbf{Contexto.} É comum que algoritmos clássicos de aprendizado de
-máquina mantenham centralizados os dados a serem
-usados para treinamento. Isso se deve ao fato de que, frequentemente, os dados 
-encontram-se dispersos em \"{}ilhas de dados\"{}\footnote{to-do referencia.}, então,
-é necessário que seja feito um trabalho de captação e agrupamento em um servidor para que o uso em treinamento seja possível. 
-No entanto, caso não seja feita de forma adequada, 
-essa centralização facilita o vazamento de dados sensíveis.
+\textbf{Contexto.} Algoritmos clássicos de aprendizado de máquina normalmente assumem
+que os dados de treinamento estão disponíveis de forma centralizada.
+Isso se deve ao fato de que, frequentemente, os dados 
+encontram-se dispersos em \textit{data islands}\footnote{Em muitos cenários reais, os dados permanecem isolados em repositórios diferentes,
+frequentemente chamados de \textit{data islands} ou \textit{data silos}, devido a restrições
+de privacidade, regulatórias ou organizacionais, impedindo a sua centralização para
+processamento de aprendizado tradicional~\cite{zhang2021survey}.}. Nessas situações, é necessário coletar e consolidar os dados em um
+servidor central para viabilizar o treinamento.
+No entanto, esse processo pode resultar em riscos de vazamento de informações sensíveis
+se não for conduzido de forma adequada.
 Em vista dessa situação, 
 diversas regulações vem sendo impostas com relação à captação e ao uso de dados para treinamento de modelos,
 tornando o uso de técnicas de aprendizado de máquina centralizado de difícil implementação prática. 
@@ -97,12 +102,49 @@ Assim, evitando a captação de dados sensíveis,
 o servidor envia um modelo de treinamento para cada dispositivo individual,
 mantendo a fase de treinamento como uma etapa local. Cada dispositivo somente retornará ao servidor 
 central seu modelo treinado localmente e atualizará o seu modelo interno conforme as atualizações no modelo global.
-Federated learning, dessa forma, garante que dados locais não possam ser vazados e, a fim de não violar 
-leis gerais de proteção de dados, a troca de parâmetros entre clientes locais e o servidor 
-para a geração de um modelo global é feita através de mecanismos criptografados.\footnote{botar uma figura aqui}
-\newline\textbf{Diferenciação.} 
+Sob essa arquitetura, os dados permanecem nos dispositivos locais e a comunicação
+é restrita a parâmetros ou gradientes, reduzindo o risco de exposição de dados sensíveis.\footnote{botar uma figura aqui}
+\begin{figure}
+\centering
+\begin{tikzpicture}[
+    server/.style={rectangle, draw, thick, minimum width=3cm, minimum height=1cm, align=center},
+    client/.style={rectangle, draw, thick, minimum width=3cm, minimum height=0.9cm, align=center},
+    arrow/.style={->, thin}
+]
+
+\path[use as bounding box] (-5,-3) rectangle (5,1);
+
+\node[server] (server) at (0,1)
+{Servidor global};
+
+\node[client] (c1) at (-4,-2) {Cliente 1};
+\node[client] (c2) at (0,-2)  {Cliente 2};
+\node[client] (c3) at (4,-2)  {Cliente 3};
+
+\draw[arrow] (server) edge node[midway, above, sloped]{\small Agregação}  (c1);
+\draw[arrow] (server) edge node[midway, above, sloped]{\small Agregação} (c2);
+\draw[arrow] (server) edge node[midway, above, sloped]{\small Agregação}  (c3);
+
+\draw[arrow] (c1) -- (server);
+\draw[arrow] (c2) -- (server);
+\draw[arrow] (c3) -- (server);
+
+\draw[->, looseness=6, out=175, in=190]
+(c1) edge node[left]{\small Treinamento local} (c1);
+
+\draw[->, looseness=10, out=-100, in=-75]
+(c2) edge node[below]{\small Treinamento local} (c2);
+
+\draw[->, looseness=6, out=5, in=-10]
+(c3) edge node[right]{\small Treinamento local} (c3);
+
+\end{tikzpicture}
+\caption{Fluxo básico do aprendizado federado.}\label{fig:federated_learning}
+\end{figure}
+\newpage\textbf{Diferenciação.} 
 \begin{enumerate}
-\item\textbf{Com relação à partição dos dados:} A classificação mais tradicional do federated learning diz respeito à forma como os dados estão distribuídos entre as entidades participantes. 
+\item\textbf{Com relação à partição dos dados.} 
+A classificação mais tradicional do federated learning diz respeito à forma como os dados estão distribuídos entre as entidades participantes. 
 Conforme sistematizado por Zhang et al.~\cite{zhang2021survey}, 
 essa categorização pode ser dividida em três cenários principais:
 \begin{enumerate}
@@ -121,13 +163,13 @@ onde diferentes entidades possuem informações complementares sobre os mesmos u
 Nesse contexto, técnicas baseadas em criptografia homomórfica e alinhamento seguro de entidades são amplamente utilizadas\cite{hardy2017private,cheng2021secureboost}.
 
 \item\textit{Aprendizado federado com transferência.}  
-Quando há pouca sobreposição tanto de usuários quanto de funcionalidade, 
+Quando há pouca sobreposição tanto de usuários quanto de funcionalidades, 
 recorre-se a técnicas de aprendizado por transferência para viabilizar o treinamento colaborativo. 
 Esse modelo é particularmente útil em cenários com dados escassos ou rotulados de forma incompleta, 
 como aplicações de classificação de imagem ou modelos de aprendizado de linguagem natural~\cite{yang2020}.
 \end{enumerate}
 
-\item\textbf{Com relação aos mecanismos de privacidade.}\newline
+\item\textbf{Com relação aos mecanismos de privacidade.} 
 Embora o federated learning evite o compartilhamento direto dos dados brutos, 
 a troca de parâmetros de modelo ainda pode levar ao vazamento de informações sensíveis. 
 Dessa forma, diferentes mecanismos de privacidade são empregados:
@@ -141,14 +183,14 @@ Permite que operações matemáticas sejam realizadas diretamente sobre dados cr
 garantindo que nem o servidor nem outros participantes tenham acesso às informações originais. 
 Esse método é comum em aprendizado federado vertical~\cite{hardy2017private,zhang2021survey}.
 
-\item\textit{Privacidade diferencial.}\newline
+\item\textit{Privacidade diferencial.}
 Consiste na adição controlada de ruído estatístico aos gradientes ou parâmetros do modelo, 
 limitando a possibilidade de inferência sobre dados individuais. 
 Pode ser aplicada tanto local quanto globalmente e é amplamente utilizada em sistemas reais, 
 como os propostos e estudados pelo Google~\cite{mcmahan2018learning,bonawitz2019towards}.
 \end{enumerate}
 
-\item\textbf{Com relação ao modelo de aprendizado de máquina aplicado.}\newline
+\item\textbf{Com relação ao modelo de aprendizado de máquina aplicado.} 
 O federated learning não se restringe a um tipo específico de modelo, 
 sendo aplicável a diferentes classes de algoritmos de aprendizado de máquina:
 \begin{enumerate}
@@ -169,14 +211,14 @@ como reconhecimento de voz, visão computacional e sistemas embarcados.
 Frameworks baseados em FedAvg permitem o treinamento eficiente de redes profundas em larga escala~\cite{mcmahan2017communication,bonawitz2019towards}.
 \end{enumerate}
 
-\item\textbf{Com relação aos métodos de tratamento da heterogeneidade.}\newline
-Um dos principais desafios do federated learning é lidar com a heterogeneidade inerente aos ambientes distribuídos,
+\item\textbf{Com relação aos métodos de tratamento da heterogeneidade.} 
+A heterogeneidade dos dados e dos recursos de clientes é um dos principais desafios inerente aos ambientes distribuídos,
 que pode manifestar-se tanto na forma de dados estatisticamente 
 não-IID\footnote{dados não-IID violam uma ou ambas dessas seguintes propriedades: independência e distribuição idêntica.
 Assim, dados não-IID podem ser um sinal de que ou há viés no conjunto de dados, ou de que os dados não seguem a mesma distribuição,
 ou de que há correlação local entre os dados. 
 Uma vez que cada cliente coleta dados de acordo com comportamentos e contextos específicos,
-resultando em distribuições distintas entre dispositivos, dados não-IID são um comum em aprendiazdo federado.}
+resultando em distribuições distintas entre dispositivos, dados não-IID são um comum em aprendizado federado.}
 quanto em diferenças computacionais,
 de disponibilidade e de conectividade entre os dispositivos participantes.
 Diversos mecanismos têm sido propostos na literatura para mitigar esses efeitos adversos:
@@ -208,10 +250,7 @@ permitem a coexistência de modelos locais adaptados a cada cliente juntamente c
 O trabalho de Liang et al.~\cite{liang2020think} propõe a separação entre representações globais e locais,
 reduzindo o impacto da heterogeneidade estatística e melhorando o desempenho individual dos clientes.
 \end{enumerate}
-
 \end{enumerate}
-\textbf{Aplicações práticas.}
-
 \section{Desafios}
 
 % ---- Bibliography ----
