@@ -256,18 +256,18 @@ O trabalho de Liang et al.~\cite{liang2020think} propõe a separação entre rep
 reduzindo o impacto da heterogeneidade estatística e melhorando o desempenho individual dos clientes.
 \end{enumerate}
 \end{enumerate}
-\section{Geração de Dados Sintéticos e Segurança}
+\section{Geração de Dados Sintéticos}
 
 A escassez de dados de alta qualidade, combinada com regulamentações rigorosas de privacidade e o alto custo de anotação manual, impulsionou a adoção da geração de dados sintéticos como uma alternativa viável aos \textit{datasets} reais \cite{lu2023}. Dados sintéticos são definidos como informações artificialmente geradas por algoritmos ou simulações que mimetizam as propriedades estatísticas e comportamentais dos dados reais, sem conter informações diretamente identificáveis. No contexto de sistemas de Inteligência Artificial seguros e privados, a geração de dados sintéticos não atua apenas como uma ferramenta de aumento de dados (\textit{data augmentation}), mas como um mecanismo fundamental de preservação de privacidade e robustez \cite{goyal2024}.
 
 \subsection{Técnicas de Geração Baseadas em IA Generativa}
 A literatura recente categoriza as abordagens de geração de dados sintéticos principalmente em três arquiteturas de aprendizado profundo:
 
-\begin{itemize}
+\begin{enumerate}
     \item \textbf{Redes Adversárias Generativas (GANs):} Consistem em dois modelos neurais, um gerador e um discriminador, que competem entre si. O gerador cria dados falsos e o discriminador tenta distinguir entre dados reais e falsos. GANs são amplamente utilizadas para síntese de imagens e dados tabulares, com variantes aplicadas especificamente para preservar a estrutura estatística de dados sensíveis \cite{goyal2024}.
     \item \textbf{Autoencoders Variacionais (VAEs):} Os VAEs aprendem a comprimir os dados de entrada em um espaço latente probabilístico e, em seguida, reconstróem os dados a partir desse espaço, permitindo a amostragem de novos pontos de dados que seguem a distribuição original \cite{lu2023}.
     \item \textbf{Grandes Modelos de Linguagem (LLMs):} Avanços recentes, como apontado por Nadăş et al. \cite{nadas2025}, demonstram que LLMs podem atuar como geradores de dados universais para texto e código. Através de técnicas de \textit{prompting} e refinamento iterativo, LLMs podem gerar dados rotulados e código sintético verificável via execução, auxiliando no treinamento de modelos de segurança de software.
-\end{itemize}
+\end{enumerate}
 
 \subsection{Sinergia com Mecanismos de Privacidade e Segurança}
 A geração de dados sintéticos desempenha um papel estratégico quando integrada às técnicas de \textit{Differential Privacy}, \textit{Federated Learning} e \textit{Machine Unlearning}.
@@ -276,7 +276,7 @@ A geração de dados sintéticos desempenha um papel estratégico quando integra
 A aplicação direta de modelos gerativos em dados sensíveis pode resultar em riscos de privacidade, como ataques de inferência de pertinência (\textit{membership inference attacks}). Para mitigar isso, a geração de dados sintéticos é frequentemente acoplada à Privacidade Diferencial \cite{lu2023}. O objetivo é gerar um \textit{dataset} sintético que preserve as propriedades estatísticas globais, mas garanta que a saída do modelo não dependa excessivamente de nenhum registro individual. Técnicas como DP-GAN integram ruído calibrado garantindo garantias formais de privacidade ($\epsilon$-differential privacy), permitindo que dados sintéticos sejam compartilhados publicamente com risco minimizado.
 
 \subsubsection{Aprendizado Federado (FL).}
-No Aprendizado Federado, a heterogeneidade dos dados (dados \textit{non-IID}) é um desafio crítico. A geração de dados sintéticos oferece soluções em duas frentes \cite{goyal2024}:
+No Aprendizado Federado, a heterogeneidade dos dados é um desafio crítico. A geração de dados sintéticos oferece soluções em duas frentes \cite{goyal2024}:
 \begin{enumerate}
     \item \textbf{Aumento de Dados Local:} Clientes com poucos dados podem usar modelos generativos para sintetizar amostras locais, melhorando a robustez do treinamento.
     \item \textbf{Privacidade Generativa Federada:} O treinamento de GANs em ambiente federado, onde apenas os parâmetros dos geradores são compartilhados, permite que o modelo global aprenda a distribuição de dados sem acesso direto aos registros brutos.
@@ -284,18 +284,19 @@ No Aprendizado Federado, a heterogeneidade dos dados (dados \textit{non-IID}) é
 
 \subsubsection{Machine Unlearning.}
 O \textit{Machine Unlearning} visa remover a influência de dados específicos de um modelo treinado. A geração de dados sintéticos atua como facilitador neste processo:
-\begin{itemize}
+\begin{enumerate}
     \item \textbf{Prevenção de Memorização:} O uso de dados sintéticos treinados com DP desde o início reduz a necessidade de \textit{unlearning} frequente, pois os dados não correspondem a indivíduos reais.
     \item \textbf{Substituição de Dados:} Em cenários onde dados reais devem ser excluídos, dados sintéticos podem ser gerados para preencher a lacuna estatística deixada pela remoção, mantendo a utilidade do modelo sem violar a privacidade \cite{nadas2025}.
-\end{itemize}
+\end{enumerate}
 \section{Desafios}
-% 
+% teste
 % ---- Bibliography ----
 %
 % BibTeX users should specify bibliography style 'splncs04'.
-% References will then be sorted and formatted in the correct style.
+% References will then be sorted and formatted in the correct style.ss
 %
 \bibliographystyle{splncs04}
 \bibliography{refs}
+
 %
 \end{document}
