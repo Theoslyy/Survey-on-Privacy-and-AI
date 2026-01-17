@@ -151,7 +151,7 @@ O processo de seleção foi conduzido em três etapas:
 A lista final de 21 referências inclui trabalhos seminais e \textit{surveys} abrangentes em cada uma das quatro áreas principais:
 \begin{itemize}
     \item \textit{Federated Learning:} Zhang et al.~\cite{zhang2021survey} apresentam um \textit{survey} abrangente sobre aprendizado federado; McMahan et al.~\cite{mcmahan2017communication} propõem o algoritmo FedAvg; Bonawitz et al.~\cite{bonawitz2017practical,bonawitz2019towards} desenvolvem protocolos de agregação segura e sistemas em larga escala.
-    \item \textit{Differential Privacy:} McMahan et al.~\cite{mcmahan2018learning} aplicam privacidade diferencial a modelos de linguagem recorrentes.
+    \item \textit{Differential Privacy:} McMahan et al.~\cite{mcmahan2018learning} aplicam privacidade diferencial a modelos de linguagem recorrentes; Dwork et al.~\cite{DP01} fornece conceitos gerais para o entendimento da differential privacy; ~\cite{DP02} aplicações práticas de differential privacy; ~\cite{DP03} fundamentação algorítma da differential privacy;~\cite{DP04} aprofunda o parâmetro delta e o conceito de falha de privacidade;~\cite{DP05} aprofundamento do tema de local differential privacy; ~\cite{DP06} foca nos riscos de privacidade em machine unlearning.
     \item \textit{Federated Learning Avançado:} Hardy et al.~\cite{hardy2017private} exploram aprendizado federado vertical com criptografia homomórfica; Cheng et al.~\cite{cheng2021secureboost} propõem SecureBoost; Liang et al.~\cite{liang2020think} abordam representações locais e globais; Fan et al.~\cite{fan2022fault} tratam tolerância a falhas; Yang et al.~\cite{yang2020} discutem transfer learning federado; Nikolaenko et al.~\cite{nikolaenko2013privacy} apresentam regressão ridge preservando privacidade.
     \item \textit{Geração de Dados Sintéticos:} Goyal \& Mahmoud~\cite{goyal2024} oferecem uma revisão sistemática de técnicas usando IA generativa; Nadă\c{s} et al.~\cite{nadas2025} exploram LLMs para geração de dados sintéticos; Lu et al.~\cite{lu2023} revisam aprendizado de máquina para geração de dados sintéticos.
 \end{itemize}
@@ -248,7 +248,7 @@ Em contrapartida, o Mecanismo Gaussiano utiliza uma sensibilidade baseada na Nor
     \Delta f_2 = \max_{D, D'} {\|f(D) - f(D')\|}_2 = \max_{D, D'} \sqrt{\sum_{i=1}^{k} {({f(D)}_i - {f(D')}_i)}^2}
 \end{equation}
 \end{enumerate}
-\textbf{Tipos.} Existem atualmente dois tipos amplamente utilizados de differential privacy, a DP centralizada e a DP local, que diferem entre si pelo momento onde o ruído é adicionado.
+\textbf{Tipos.} Existem atualmente dois tipos amplamente utilizados de differential privacy, a DP centralizada e a DP local, que diferem entre si pelo momento onde o ruído é adicionado. ~\cite{DP01}
 \begin{enumerate}
     \item\textbf{Centralized Differential Privacy:} o ruído é adicionado após os dados chegarem no Data center.
     \item\textbf{Local Differential Privacy:} o ruído é adicionado ainda no dispositivo dos usuários, os dados enviados pelo dispositivo até o Data center já estão privados.
