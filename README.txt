@@ -109,21 +109,18 @@ O artigo segue o formato Springer LNCS e contém:
 1. INTRODUÇÃO
    - Contextualização e motivação
 
-2. CRITÉRIOS DE BUSCA
-   - Metodologia da revisão sistemática
-
-3. CARACTERIZAÇÃO FERRAMENTAL
+2. CARACTERIZAÇÃO FERRAMENTAL
    - Machine Unlearning
    - Differential Privacy
    - Federated Learning (com taxonomia completa)
 
-4. GERAÇÃO DE DADOS SINTÉTICOS
+3. GERAÇÃO DE DADOS SINTÉTICOS
    - GANs, VAEs, LLMs e sinergia com outras técnicas
 
-5. DESAFIOS
-   - Limitações e direções futuras
+4. CONCLUSÃO
+   - Síntese, desafios e direções futuras
 
-6. BIBLIOGRAFIA
+5. BIBLIOGRAFIA
    - 16 referências
 
 ================================================================================

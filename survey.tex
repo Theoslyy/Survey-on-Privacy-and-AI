@@ -256,7 +256,7 @@ O trabalho de Liang et al.~\cite{liang2020think} propõe a separação entre rep
 reduzindo o impacto da heterogeneidade estatística e melhorando o desempenho individual dos clientes.
 \end{enumerate}
 \end{enumerate}
-\section{Geração de Dados Sintéticos}
+\section{Geração de Dados Sintéticos}\label{sec:synthetic}
 
 A escassez de dados de alta qualidade, combinada com regulamentações rigorosas de privacidade e o alto custo de anotação manual, impulsionou a adoção da geração de dados sintéticos como uma alternativa viável aos \textit{datasets} reais \cite{lu2023}. Dados sintéticos são definidos como informações artificialmente geradas por algoritmos ou simulações que mimetizam as propriedades estatísticas e comportamentais dos dados reais, sem conter informações diretamente identificáveis. No contexto de sistemas de Inteligência Artificial seguros e privados, a geração de dados sintéticos não atua apenas como uma ferramenta de aumento de dados (\textit{data augmentation}), mas como um mecanismo fundamental de preservação de privacidade e robustez \cite{goyal2024}.
 
@@ -288,7 +288,92 @@ O \textit{Machine Unlearning} visa remover a influência de dados específicos d
     \item \textbf{Prevenção de Memorização:} O uso de dados sintéticos treinados com DP desde o início reduz a necessidade de \textit{unlearning} frequente, pois os dados não correspondem a indivíduos reais.
     \item \textbf{Substituição de Dados:} Em cenários onde dados reais devem ser excluídos, dados sintéticos podem ser gerados para preencher a lacuna estatística deixada pela remoção, mantendo a utilidade do modelo sem violar a privacidade \cite{nadas2025}.
 \end{enumerate}
-\section{Desafios}
+\section{Conclusão}
+
+A crescente dependência de sistemas de Inteligência Artificial em diversos setores da sociedade trouxe à tona questões fundamentais sobre a proteção de dados pessoais e a conformidade com regulamentações de privacidade.
+Neste trabalho, apresentamos uma revisão sistemática das principais técnicas de preservação de privacidade aplicadas ao contexto de aprendizado de máquina, explorando suas características, aplicações e limitações.
+
+Conforme discutido ao longo deste \textit{survey}, o \textit{federated learning} emerge como
+uma solução robusta para cenários onde a centralização de dados é inviável
+ou indesejável. Ao manter os dados nos dispositivos locais e compartilhar apenas parâmetros de modelo, essa abordagem reduz significativamente os riscos de vazamento
+de informações sensíveis. No entanto, como demonstrado, a simples descentralização não é suficiente. A heterogeneidade de dados não-IID, as limitações de comunicação e os
+potenciais ataques de inferência sobre gradientes compartilhados exigem
+mecanismos adicionais de proteção.
+
+Nesse contexto, a privacidade diferencial atua como uma camada complementar
+de segurança, fornecendo garantias formais e quantificáveis sobre o nível
+de privacidade preservado. A adição controlada de ruído estatístico aos dados ou aos parâmetros do  modelo limita a capacidade de adversários inferirem informações sobre
+indivíduos específicos, mesmo quando têm acesso ao modelo treinado.
+Essa técnica, quando integrada ao aprendizado federado, fortalece
+substancialmente as garantias de privacidade do sistema como um todo.
+
+O \textit{machine unlearning}, por sua vez, responde a uma demanda regulatória e
+ética cada vez mais presente: o direito ao esquecimento.
+A capacidade de remover seletivamente a influência de dados específicos
+de modelos já treinados, sem comprometer significativamente seu desempenho,
+representa um avanço importante na direção de sistemas de IA mais
+transparentes e responsáveis. Embora ainda existam desafios técnicos consideráveis, especialmente em
+relação à eficiência computacional e às garantias de remoção completa,
+os métodos discutidos neste trabalho demonstram a viabilidade prática
+dessa abordagem.
+
+A geração de dados sintéticos, como explorado na Seção~\ref{sec:synthetic}, desempenha um
+papel estratégico ao complementar as técnicas anteriores.
+Ao produzir dados artificiais que preservam propriedades estatísticas
+relevantes sem expor informações individuais, essa abordagem não apenas
+facilita o compartilhamento de dados para pesquisa e desenvolvimento,
+mas também oferece soluções para problemas de escassez de dados e
+desbalanceamento de classes.
+A sinergia entre geração de dados sintéticos e privacidade diferencial,
+em particular, permite a criação de datasets públicos com garantias
+formais de privacidade.
+
+\textbf{Desafios e direções futuras}
+
+Apesar dos avanços significativos nas técnicas de preservação de privacidade,
+diversos desafios permanecem em aberto.
+A tensão fundamental entre utilidade do modelo e nível de privacidade
+garantido continua sendo um ponto crítico de pesquisa.
+Em muitos cenários práticos, a adição de ruído ou a descentralização do
+treinamento resulta em degradação de desempenho que pode ser inaceitável
+para aplicações críticas.
+
+Além disso, a composição de múltiplas técnicas de privacidade, embora
+promissora, introduz complexidades adicionais em termos de análise de
+garantias e overhead computacional.
+A integração de federated learning com privacidade diferencial e machine
+unlearning, por exemplo, requer cuidadosa calibração de parâmetros e
+análise de trade-offs.
+
+Outro desafio importante diz respeito à escalabilidade dessas técnicas
+para cenários de larga escala.
+Embora frameworks como o proposto por Bonawitz et al.~\cite{bonawitz2019towards}
+demonstrem a viabilidade do aprendizado federado com milhões de dispositivos,
+questões relacionadas a custos de comunicação, tolerância a falhas e
+heterogeneidade de recursos permanecem como obstáculos práticos.
+
+Por fim, a avaliação rigorosa de garantias de privacidade em sistemas
+reais continua sendo um problema em aberto.
+Ataques cada vez mais sofisticados, como os de inferência de pertinência
+e reconstrução de dados, demonstram que garantias teóricas nem sempre se
+traduzem em proteção efetiva contra adversários determinados.
+
+\textbf{Considerações finais}
+
+As técnicas de preservação de privacidade discutidas neste \textit{survey}
+representam avanços fundamentais na direção de sistemas de IA mais
+seguros e responsáveis.
+A combinação de \textit{federated learning}, \textit{differential privacy}, \textit{machine unlearning}
+e geração de dados sintéticos oferece um conjunto robusto de ferramentas
+para diferentes cenários e requisitos de privacidade.
+No entanto, a adoção prática dessas técnicas ainda enfrenta barreiras
+técnicas, regulatórias e organizacionais que demandam esforços contínuos
+de pesquisa e desenvolvimento.
+À medida que regulamentações de privacidade se tornam mais rigorosas e
+a conscientização sobre proteção de dados aumenta, espera-se que essas
+técnicas se tornem componentes essenciais de qualquer sistema de IA
+implantado em ambientes de produção.
+
 % teste
 % ---- Bibliography ----
 %
