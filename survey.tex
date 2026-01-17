@@ -166,7 +166,32 @@ quanto práticos das técnicas de preservação de privacidade em IA.\@
 
 \section{Caracterização Ferramental}
 \subsection{Machine unlearning}
-woow
+\textbf{Contexto.} Desaprendizado de Máquina (ou Machine Unlearning), é um ramo da Aprendizagem de Máquina com foco em realizar um processo de remoção de dados específicos de um modelo após este já ter sido treinado, sem precisar retreiná-lo do zero. 
+Sua proposta surgiu a partir da necessidade de fazer um modelo de aprendizado de máquina ser capaz de remover determinados tipos de dados usados em seu treinamento, como aqueles com desinformação, conteúdo sensível, informação datada e entre outros, quando o artigo 17 do Regulamento Geral sobre a Proteção de Dados da União Europeia entrou em vigor em 2014.
+Embora a ideia pareça simples, apagar dados usados para treinamento do banco de dados não implica na remoção de informações relacionadas a esses dados do modelo. Uma solução seria re-treinar a máquina sem os dados removidos, mas isso é computacionalmente custoso. 
+Portanto, para resolver este problema, surgiram estratégias variadas de machine unlearning mais eficientes para o problema:
+\begin{enumerate}
+    \item\textit{SISA (Sharded, Isolated, Sliced, Aggregated):} Consiste em dividir os dados em vários pedaços e treinar sub-modelos. Ao precisar remover algum dado específico, apenas o sub-modelo que o contém precisará ser treinado novamente, economizando tempo. Conceitualmente, consiste em dividir um problema grande em pequenos problemas, para evitar prejudicar o todo.
+    \item\textit{Manipulação de Gradiente:} Por meio de uma estratégia mais matemática, a ideia da manipulação de gradiente consiste em analisar a influência dos dados, através do cálculo da mudança de pesos, considerando a inexistência daquele dado no espaço amostral inicial, e dessa forma, aplicar uma correção inversa.
+    \item\textit{Otimização Professor-Aluno:} Essa estratégia tem como base criar cópias (Alunos) de um modelo principal (Professor). Essas cópias tentam imitar o modelo original sem usar dados do modelo original que precisam ser removidos. Assim, as cópias ignoram esses dados em sua construção.
+\end{enumerate}
+\textbf{Tipos.}
+\begin{enumerate}
+    \item\textit{SISA:} Acrônimo para Shared, Isolated, Sliced, Aggregated, a estratégia SISA permite a remoção de dados específicos sem a necessidade de retreinar o modelo inteiro do zero, tornando, dessa forma, a desaprendizagem de máquina mais eficiente e menos custosa computacionalmente.  A seguir, pode-se ver uma explicação breve de cada componente dessa estratégia:
+    \begin{enumerate}
+    \item\textit{Sharding:} A fragmentação divide o conjunto de dados em subconjuntos disjuntos, chamados de Shards. Cada shard é utilizado para treinar uma parte do modelo de maneira separada. Dessa forma, a mudança de dados modifica apenas aquele subconjunto;
+    \item\textit{Isolation:} Consiste em treinar cada subconjunto maneira independente, sem que haja qualquer troca de informação entre diferentes shards. Assim, o isolamento evita a contaminação cruzada, garantindo com que a mudança de dado só afetará ao shard que o contém.
+    \item\textit{Slicing:} Dentro de cada shard, os dados são organizados em fatias sequenciais e o estado do modelo é salvo após seu treinamento para, ao remover determinada informação, o sistema poder retomar do último ponto salvo.
+    \item\textit{Aggregation:} Por fim, os resultados dos modelos dos subconjuntos são combinados para gerar o modelo final único e unificado. A agregação pode ser feita escolhendo algum critério, sendo os principais votação majoritária e média de predição.
+    \end{enumerate}
+    \item\textit{Manipulação de Gradiente:} Diferente da estratégia SISA, 
+    que procura dividir o conjunto em subconjuntos,  a proposta da manipulação de gradiente se baseia na remoção da influência de uma amostra de dados do modelo já treinado, de forma matemática, alterando os parâmetros de forma direta.
+	Durante o treinamento dos modelos, cada dado entrega um gradiente o qual desloca os pesos do modelo em determinada direção. Após isto, há uma estimativa de contribuição passada e se aplica o reajuste inverso, em que os parâmetros são movidos para uma área do espaço dos modelos onde o dado removido nunca existiu.
+	Essa estratégia não garante um modelo resultante exato, diferente do que seria obtido realizando o re-treinamento do zero. Em modelos mais complexos, a influência exercida por um dado é distribuída por diversos parâmetros, fazendo com que a manipulação de gradiente seja impossível de ser inteiramente eficiente.
+    \item\textit{Otimização Professor-Aluno:} A estratégia da otimização Professor-Aluno é baseada em destilação de conhecimento, ou seja, transferência de conhecimento de um modelo grande para outro menor. Nessa estratégia, a ideia é que um novo modelo, rotulado como Aluno, imite o modelo grande, rotulado como Professor, sem usar os dados que desejam ser removidos.
+	O processo funciona com o modelo professor encapsulando o conhecimento que foi obtido na sua totalidade por todos os dados informados, enquanto o modelo aluno obtém o conhecimento pelas saídas do professor, limitando-se aos dados permitidos. Por meio disso, o modelo Aluno se comporta exatamente como o modelo Professor se determinados dados removidos nunca tivessem sido adicionados.
+	Assim como os dois métodos anteriores, o sistema Professor-Aluno não garante os resultados exatos. Se, por exemplo, o modelo Professor conter informações sensíveis, esse conhecimento pode ser passado para o modelo Aluno através de predições. 
+\end{enumerate}
 \subsection{Differential privacy}
 \textbf{Contexto.} A Privacidade Diferencial (DP) foi formalmente proposta em 2006 por Cynthia Dwork e seus colaboradores como uma forma de assegurar
  a privacidade dos dados, fornecendo uma robusta garantia matemática, 
@@ -218,11 +243,15 @@ Os parâmetros $\epsilon$ e $\delta$ controlam, respectivamente, o nível de sim
 \item\textit{Mecanismo Gaussiano:} técnica amplamente utilizada em contextos de aprendizado profundo (Deep Learning) e grandes volumes de dados, adicionando ruído baseado em uma distribuição normal (Gaussiana)~\cite{DP01,DP04}.
 \end{enumerate}
 
-\item\textit{Sensibilidade:} É um valor que mede a variação máxima do resultado de uma função (ou consulta) ao adicionar ou remover um único registro do conjunto de dados.
+\item\textit{Sensibilidade:} É o parâmetro que quantifica o impacto máximo da inclusão ou remoção de um único registro sobre a saída de um algoritmo. Esse parâmetro auxilia a definir a quantidade de ruído necessário para garantir a privacidade.
+O Mecanismo de Laplace utiliza uma sensibilidade baseada na Norma L1 (distância de Manhattan), que corresponde à soma dos valores absolutos das diferenças entre os resultados dos algoritmos (representados por $f(D)$ e $f(D')$):
 \begin{equation}
-    \Delta f = \max{D,D'  ||f (D) - f (D')||}
+    \Delta f_1 = \max_{D, D'} \|f(D) - f(D')\|_1 = \max_{D, D'} \sum_{i=1}^{k} |f(D)_i - f(D')_i|
 \end{equation}
-A sensibilidade do mecanismo de Laplace é representada pela norma L1, enquanto a sensibilidade do mecanismo Gaussiano é representada pela norma L2.
+Em contrapartida, o Mecanismo Gaussiano utiliza uma sensibilidade baseada na Norma L2 (distância Euclidiana), que corresponde à raiz quadrada da soma dos quadrados das diferenças entre os resultados dos algoritmos (representados por $f(D)$ e $f(D')$).
+\begin{equation}
+    \Delta f_2 = \max_{D, D'} \|f(D) - f(D')\|_2 = \max_{D, D'} \sqrt{\sum_{i=1}^{k} (f(D)_i - f(D')_i)^2}
+\end{equation}
 \end{enumerate}
 \textbf{Tipos.} Existem atualmente dois tipos amplamente utilizados de differential privacy, a DP centralizada e a DP local, que diferem entre si pelo momento onde o ruído é adicionado.
 \begin{enumerate}
