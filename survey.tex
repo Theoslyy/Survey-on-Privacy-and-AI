@@ -31,11 +31,7 @@
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
-\author{Davi Iury \and
-Esther Martins \and
-Lucas Pinheiro \and 
-Rafael Porto \and 
-Théo Araújo}
+\author{Davi Souza, Esther Martins, Lucas Pinheiro, Rafael Porto, e Théo Araújo}
 %
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
@@ -136,11 +132,11 @@ e periódicos como \textit{Knowledge-Based Systems}, IEEE \textit{Access e Elect
 \textbf{Critérios de seleção.}
 Os artigos foram selecionados com base nos seguintes critérios:
 \begin{enumerate}
-    \item \textit{Relevância temática:} O trabalho deve abordar diretamente técnicas de preservação de privacidade em aprendizado de máquina.
-    \item \textit{Qualidade da publicação:} Preferência por artigos publicados em venues de alto impacto (IEEE, ACM, Springer) ou repositórios reconhecidos (arXiv).
-    \item \textit{Impacto científico:} Número de citações como indicador de relevância e influência na área.
-    \item \textit{Contribuição técnica:} Trabalhos que apresentam métodos inovadores, análises abrangentes ou implementações práticas.
-    \item \textit{Atualidade:} Priorização de trabalhos recentes (2017-2025), embora trabalhos seminais mais antigos também tenham sido incluídos.
+    \item\textit{Relevância temática:} O trabalho deve abordar diretamente técnicas de preservação de privacidade em aprendizado de máquina.
+    \item\textit{Qualidade da publicação:} Preferência por artigos publicados em venues de alto impacto (IEEE, ACM, Springer) ou repositórios reconhecidos (arXiv).
+    \item\textit{Impacto científico:} Número de citações como indicador de relevância e influência na área.
+    \item\textit{Contribuição técnica:} Trabalhos que apresentam métodos inovadores, análises abrangentes ou implementações práticas.
+    \item\textit{Atualidade:} Priorização de trabalhos recentes $(2017-2025)$, embora trabalhos seminais mais antigos também tenham sido incluídos.
 \end{enumerate}
 
 \textbf{Processo de triagem.}
@@ -148,11 +144,11 @@ O processo de seleção foi conduzido em três etapas:
 \begin{enumerate}
     \item \textit{Busca inicial:} Aproximadamente 50 artigos foram identificados com base nos termos de busca e filtros de citação.
     \item \textit{Análise de abstract e metadados:} Os abstracts e informações de publicação foram analisados para verificar relevância e qualidade, resultando em 25 artigos pré-selecionados.
-    \item \textit{Leitura completa e rastreamento de referências:} Os artigos pré-selecionados foram lidos integralmente, e suas referências foram rastreadas para identificar trabalhos adicionais relevantes. Após essa etapa, 16 artigos foram selecionados para compor a base bibliográfica final deste \textit{survey}.
+    \item \textit{Leitura completa e rastreamento de referências:} Os artigos pré-selecionados foram lidos integralmente, e suas referências foram rastreadas para identificar trabalhos adicionais relevantes. Após essa etapa, 21 artigos foram selecionados para compor a base bibliográfica final deste \textit{survey}.
 \end{enumerate}
 
 \textbf{Trabalhos selecionados.}
-A lista final de 16 referências inclui trabalhos seminais e \textit{surveys} abrangentes em cada uma das quatro áreas principais:
+A lista final de 21 referências inclui trabalhos seminais e \textit{surveys} abrangentes em cada uma das quatro áreas principais:
 \begin{itemize}
     \item \textit{Federated Learning:} Zhang et al.~\cite{zhang2021survey} apresentam um \textit{survey} abrangente sobre aprendizado federado; McMahan et al.~\cite{mcmahan2017communication} propõem o algoritmo FedAvg; Bonawitz et al.~\cite{bonawitz2017practical,bonawitz2019towards} desenvolvem protocolos de agregação segura e sistemas em larga escala.
     \item \textit{Differential Privacy:} McMahan et al.~\cite{mcmahan2018learning} aplicam privacidade diferencial a modelos de linguagem recorrentes.
@@ -161,12 +157,123 @@ A lista final de 16 referências inclui trabalhos seminais e \textit{surveys} ab
 \end{itemize}
 
 Essa metodologia garantiu a seleção de trabalhos de qualidade e relevância,
-cobrindo tanto aspectos teóricos quanto práticos das técnicas de preservação de privacidade em IA.
+cobrindo tanto aspectos teóricos 
+quanto práticos das técnicas de preservação de privacidade em IA.\@
+
 \section{Caracterização Ferramental}
 \subsection{Machine unlearning}
-woow
+\textbf{Contexto.} Desaprendizado de Máquina (ou Machine Unlearning), é um ramo da Aprendizagem de Máquina com foco em realizar um processo de remoção de dados específicos de um modelo após este já ter sido treinado, sem precisar retreiná-lo do zero. 
+Sua proposta surgiu a partir da necessidade de fazer um modelo de aprendizado de máquina ser capaz de remover determinados tipos de dados usados em seu treinamento, como aqueles com desinformação, conteúdo sensível, informação datada e entre outros, quando o artigo 17 do Regulamento Geral sobre a Proteção de Dados da União Europeia entrou em vigor em 2014.
+Embora a ideia pareça simples, apagar dados usados para treinamento do banco de dados não implica na remoção de informações relacionadas a esses dados do modelo. Uma solução seria re-treinar a máquina sem os dados removidos, mas isso é computacionalmente custoso. 
+Portanto, para resolver este problema, surgiram estratégias variadas de machine unlearning mais eficientes para o problema:
+\begin{enumerate}
+    \item\textbf{SISA (Sharded, Isolated, Sliced, Aggregated):} Consiste em dividir os dados em vários pedaços e treinar sub-modelos. Ao precisar remover algum dado específico, apenas o sub-modelo que o contém precisará ser treinado novamente, economizando tempo. Conceitualmente, consiste em dividir um problema grande em pequenos problemas, para evitar prejudicar o todo.
+    \item\textbf{Manipulação de Gradiente:} Por meio de uma estratégia mais matemática, a ideia da manipulação de gradiente consiste em analisar a influência dos dados, através do cálculo da mudança de pesos, considerando a inexistência daquele dado no espaço amostral inicial, e dessa forma, aplicar uma correção inversa.
+    \item\textbf{Otimização Professor-Aluno:} Essa estratégia tem como base criar cópias (Alunos) de um modelo principal (Professor). Essas cópias tentam imitar o modelo original sem usar dados do modelo original que precisam ser removidos. Assim, as cópias ignoram esses dados em sua construção.
+\end{enumerate}
+\textbf{Tipos.}
+\begin{enumerate}
+    \item\textbf{SISA:} Acrônimo para Shared, Isolated, Sliced, Aggregated, a estratégia SISA permite a remoção de dados específicos sem a necessidade de retreinar o modelo inteiro do zero, tornando, dessa forma, a desaprendizagem de máquina mais eficiente e menos custosa computacionalmente.  A seguir, pode-se ver uma explicação breve de cada componente dessa estratégia:
+    \begin{enumerate}
+    \item\textit{Sharding:} A fragmentação divide o conjunto de dados em subconjuntos disjuntos, chamados de Shards. Cada shard é utilizado para treinar uma parte do modelo de maneira separada. Dessa forma, a mudança de dados modifica apenas aquele subconjunto;
+    \item\textit{Isolation:} Consiste em treinar cada subconjunto maneira independente, sem que haja qualquer troca de informação entre diferentes shards. Assim, o isolamento evita a contaminação cruzada, garantindo com que a mudança de dado só afetará ao shard que o contém.
+    \item\textit{Slicing:} Dentro de cada shard, os dados são organizados em fatias sequenciais e o estado do modelo é salvo após seu treinamento para, ao remover determinada informação, o sistema poder retomar do último ponto salvo.
+    \item\textit{Aggregation:} Por fim, os resultados dos modelos dos subconjuntos são combinados para gerar o modelo final único e unificado. A agregação pode ser feita escolhendo algum critério, sendo os principais votação majoritária e média de predição.
+    \end{enumerate}
+    \item\textbf{Manipulação de Gradiente:} Diferente da estratégia SISA, 
+    que procura dividir o conjunto em subconjuntos,  a proposta da manipulação de gradiente se baseia na remoção da influência de uma amostra de dados do modelo já treinado, de forma matemática, alterando os parâmetros de forma direta.
+	Durante o treinamento dos modelos, cada dado entrega um gradiente o qual desloca os pesos do modelo em determinada direção. Após isto, há uma estimativa de contribuição passada e se aplica o reajuste inverso, em que os parâmetros são movidos para uma área do espaço dos modelos onde o dado removido nunca existiu.
+	Essa estratégia não garante um modelo resultante exato, diferente do que seria obtido realizando o re-treinamento do zero. Em modelos mais complexos, a influência exercida por um dado é distribuída por diversos parâmetros, fazendo com que a manipulação de gradiente seja impossível de ser inteiramente eficiente.
+    \item\textbf{Otimização Professor-Aluno:} A estratégia da otimização Professor-Aluno é baseada em destilação de conhecimento, ou seja, transferência de conhecimento de um modelo grande para outro menor. Nessa estratégia, a ideia é que um novo modelo, rotulado como Aluno, imite o modelo grande, rotulado como Professor, sem usar os dados que desejam ser removidos.
+	O processo funciona com o modelo professor encapsulando o conhecimento que foi obtido na sua totalidade por todos os dados informados, enquanto o modelo aluno obtém o conhecimento pelas saídas do professor, limitando-se aos dados permitidos. Por meio disso, o modelo Aluno se comporta exatamente como o modelo Professor se determinados dados removidos nunca tivessem sido adicionados.
+	Assim como os dois métodos anteriores, o sistema Professor-Aluno não garante os resultados exatos. Se, por exemplo, o modelo Professor conter informações sensíveis, esse conhecimento pode ser passado para o modelo Aluno através de predições. 
+\end{enumerate}
 \subsection{Differential privacy}
-woow
+\textbf{Contexto.} A Privacidade Diferencial (DP) foi formalmente proposta em 2006 por Cynthia Dwork e seus colaboradores como uma forma de assegurar
+ a privacidade dos dados, fornecendo uma robusta garantia matemática, 
+ em contraposição à vulnerabilidade dos métodos tradicionais de anonimização, 
+ que se mostraram ineficazes contra ataques de ligação e reidentificação em grandes conjuntos de dados, 
+ além de minimizar o riscos como a memorização indesejada de dados sensíveis por redes neurais~\cite{DP01,DP03,DP05,DP06}.
+ A DP é essencial no cenário atual de Big Data porque fornece uma garantia de privacidade que é independente do poder computacional 
+ ou do conhecimento prévio de um atacante~\cite{DP03}. Ela resolve o problema da memorização em redes neurais, 
+ onde modelos complexos acabam armazenando dados sensíveis de treinamento de forma não intencional, 
+ tornando-os vulneráveis a ataques de inferência de membro (membership inference)~\cite{DP06}.
+\newline\textbf{Definição.}
+Differential Privacy é um robusto método matemático e estatístico para proteger a privacidade dos registros presentes em um conjunto de dados, 
+permitindo análises desses dados sem revelar informações específicas sobre um dado registro, 
+garantindo que os resultados de algoritmos aplicados sobre esses dados não possuam resultados substancialmente diferentes caso um dos registros seja adicionado, 
+removido ou alterado, assegurando um resultado próximo ao valor real, respeitando uma margem de erro aceitável e controlada. 
+Isso é realizado por meio da adição de um ruído calculado que ofusca a saída dos algoritmos, 
+garantindo que qualquer registro do conjunto de dados tenha um impacto limitado no resultado, protegendo, dessa forma, a privacidade individual dos dados, 
+porque os valores das saídas estarão dentro de um intervalo que contém o valor do resultado real e cujos limitantes, 
+tanto superior quanto inferior, respeitam um valor de erro tolerável~\cite{DP01,DP02}. 
+\newline\textbf{Breve análise técnica.}
+Esta seção abordará uma visão geral de definições teóricas, 
+propriedades e conceitos importantes para fundamentar o entendimento sobre a privacidade diferencial.
+\begin{enumerate}
+\item\textbf{Neighboring Datasets (Conjuntos de Dados Vizinhos):} Considere dois conjuntos de dados denotados por $D$ e $D'$, 
+eles serão vizinhos se a diferença entre eles for apenas um único registro. 
+Isto é, para transformar um conjunto de dados original em um conjunto de dados vizinho, 
+basta realizar uma única alteração, que pode ser adicionar ou remover única tupla.~\cite{DP01}
+No contexto de DP, dois datasets vizinhos, 
+um contendo um registro específico e outro não contendo este mesmo registro, ao passarem por um algoritmo de análise de dados, 
+iriam produzir resultados muito próximos, 
+tornando muito difícil distinguir a exata contribuição do registro específico sobre o resultado ao comparar ambos os conjuntos de dados vizinhos, 
+assegurando a privacidade individual deste registro específico.
+
+\item\textbf{$\epsilon$ (Epsilon):} É um parâmetro conhecido como privacy budget (orçamento de privacidade), cujo valor deve ser maior ou igual a zero. É representativo do grau de proteção da privacidade. O valor do privacy budget é  inversamente proporcional à garantia da privacidade, isto é, quanto menor o valor desta variável, mais rigorosa é a proteção dos registros. Isso implica que a quantidade de ruído adicionada é maior, porque ruído é o que assegura a privacidade ao dificultar que atacantes adquiram informações se determinado registro está presente ou não em conjunto de dados por meio de ataques de inferência.
+\item\textbf{$\delta$ (Delta):} É um parâmetro que representa a probabilidade da garantia da privacidade falhar. Quanto menor o valor desta, maior é a segurança dos dados, valores ideais de delta são muito próximos a zero. Para que a proteção seja considerada robusta, o valor desse parâmetro deve ser significativamente menor que o inverso do tamanho do conjunto de dados, isto é, $\delta < \frac{1}{|D|}$; caso contrário, valores elevados desse parâmetro poderiam permitir a exposição direta de informações sensíveis, tornando a garantia de privacidade trivial.
+A partir disso, temos a definição matemática da privacidade diferencial $((\epsilon, \delta)-DP)$, descrita pela expressão:
+\begin{equation}
+    \Pr[M(D) \in S] \leq \Pr[M(D') \in S] \times (e^\epsilon) + \delta
+\end{equation}
+Onde $D$ e $D'$ são conjuntos de dados vizinhos, M é um algoritmo qualquer e S é um conjunto de saídas possíveis desse algoritmo.
+Essa definição formal estabelece que um algoritmo M é $(\epsilon, \delta)$-diferencialmente privado se, para quaisquer dois conjuntos de dados vizinhos, a probabilidade de o algoritmo gerar um determinado resultado for quase a mesma em ambos os casos.
+Os parâmetros $\epsilon$ e $\delta$ controlam, respectivamente, o nível de similaridade entre as saídas e o tamanho do erro aceitável para situações em que a garantia estrita de privacidade possa falhar.
+
+\item\textbf{Mecanismos:} Algoritmos que calculam o ruído a ser adicionado para garantir a privacidade diferencial de um conjunto de dados. Existem dois mecanismos comumente utilizados:
+\begin{enumerate}
+\item\textit{Mecanismo de Laplace:} técnica clássica para preservar a privacidade em dados numéricos,  adicionando ruído aleatório baseado em uma distribuição de Laplace ao resultado real da consulta~\cite{DP01,DP05}.
+
+\item\textit{Mecanismo Gaussiano:} técnica amplamente utilizada em contextos de aprendizado profundo (Deep Learning) e grandes volumes de dados, adicionando ruído baseado em uma distribuição normal (Gaussiana)~\cite{DP01,DP04}.
+\end{enumerate}
+
+\item\textbf{Sensibilidade:} É o parâmetro que quantifica o impacto máximo da inclusão ou remoção de um único registro sobre a saída de um algoritmo. Esse parâmetro auxilia a definir a quantidade de ruído necessário para garantir a privacidade.
+O Mecanismo de Laplace utiliza uma sensibilidade baseada na Norma L1 (distância de Manhattan), que corresponde à soma dos valores absolutos das diferenças entre os resultados dos algoritmos (representados por $f(D)$ e $f(D')$):
+\begin{equation}
+    \Delta f_1 = \max_{D, D'} {\|f(D) - f(D')\|}_1 = \max_{D, D'} \sum_{i=1}^{k} |{f(D)}_i - {f(D')}_i|
+\end{equation}
+Em contrapartida, o Mecanismo Gaussiano utiliza uma sensibilidade baseada na Norma L2 (distância Euclidiana), que corresponde à raiz quadrada da soma dos quadrados das diferenças entre os resultados dos algoritmos (representados por $f(D)$ e $f(D')$).
+\begin{equation}
+    \Delta f_2 = \max_{D, D'} {\|f(D) - f(D')\|}_2 = \max_{D, D'} \sqrt{\sum_{i=1}^{k} {({f(D)}_i - {f(D')}_i)}^2}
+\end{equation}
+\end{enumerate}
+\textbf{Tipos.} Existem atualmente dois tipos amplamente utilizados de differential privacy, a DP centralizada e a DP local, que diferem entre si pelo momento onde o ruído é adicionado.
+\begin{enumerate}
+    \item\textbf{Centralized Differential Privacy:} o ruído é adicionado após os dados chegarem no Data center.
+    \item\textbf{Local Differential Privacy:} o ruído é adicionado ainda no dispositivo dos usuários, os dados enviados pelo dispositivo até o Data center já estão privados.
+\end{enumerate}
+\textbf{Cenário atual.} Essa seção definirá mais claramente as vantagens e desvantagens do método, 
+além de explicitar os desafios atuais do estudo na área.
+\begin{enumerate}
+    \item\textbf{Vantagens:}
+    \begin{enumerate}
+        \item\textit{Composição:} Permite calcular o risco acumulado de privacidade após múltiplas análises sobre o mesmo conjunto de dados (o chamado privacy accounting)~\cite{DP01}.
+        \item\textit{Imunidade ao pós-processamento:} Uma vez que um dado é tornado privado através de um mecanismo de DP, nenhuma computação adicional pode reverter essa proteção ou aumentar o vazamento de informações~\cite{DP03}.
+        \item\textit{Robustez e generalização} Ao adicionar ruído durante o treinamento, a DP pode atuar como uma forma de regularização, ajudando o modelo a focar em características genéricas da população em vez de ruídos específicos de registros individuais~\cite{DP01}.
+    \end{enumerate}
+    \item\textbf{Desvantagens:}
+    \begin{enumerate}
+        \item\textit{Dificuldade em equilibrar utilidade e privacidade:} Níveis mais altos de privacidade (menor epsilon) resultam em uma maior degradação da acurácia do modelo devido ao alto ruído adicionado para assegurar a privacidade.~\cite{DP01,DP02}.
+        \item\textit{Sobrecarga Computacional:} Algoritmos como o DP-SGD exigem o corte (clipping) de gradientes e o processamento de ruído para cada amostra ou lote, o que aumenta o tempo de treinamento e a demanda por recursos de hardware~\cite{DP01}.
+    \end{enumerate}
+    \item\textbf{Desafios:} 
+    \begin{enumerate}
+        \item\textit{Fairness:} Estudos indicam que a DP pode afetar de forma desproporcional a precisão em subgrupos minoritários ou sub-representados, levantando dilemas éticos sobre justiça algorítmica~\cite{DP01}.
+        \item\textit{Gerenciamento do orçamento:} Em sistemas que recebem atualizações contínuas de dados, como o Aprendizado Federado, o orçamento de privacidade (epsilon) pode se esgotar rapidamente, exigindo mecanismos complexos para renovar ou otimizar o consumo desse recurso~\cite{DP01,zhang2021survey}.
+        \item\textit{Implementação em Machine Unlearning:} Garantir que um modelo possa perder completamente um dado de forma diferencialmente privada sem precisar ser treinado novamente do zero continua sendo uma fronteira de pesquisa ativa e complexa~\cite{DP07}.
+    \end{enumerate}
+\end{enumerate}
 \newpage
 \subsection{Federated learning}
 \textbf{Contexto.} Algoritmos clássicos de aprendizado de máquina normalmente assumem
@@ -342,27 +449,28 @@ O trabalho de Liang et al.~\cite{liang2020think} propõe a separação entre rep
 reduzindo o impacto da heterogeneidade estatística e melhorando o desempenho individual dos clientes.
 \end{enumerate}
 \end{enumerate}
+
 \section{Geração de Dados Sintéticos}\label{sec:synthetic}
-
-A escassez de dados de alta qualidade, combinada com regulamentações rigorosas de privacidade e o alto custo de anotação manual, impulsionou a adoção da geração de dados sintéticos como uma alternativa viável aos \textit{datasets} reais \cite{lu2023}. Dados sintéticos são definidos como informações artificialmente geradas por algoritmos ou simulações que mimetizam as propriedades estatísticas e comportamentais dos dados reais, sem conter informações diretamente identificáveis. No contexto de sistemas de Inteligência Artificial seguros e privados, a geração de dados sintéticos não atua apenas como uma ferramenta de aumento de dados (\textit{data augmentation}), mas como um mecanismo fundamental de preservação de privacidade e robustez \cite{goyal2024}.
-
+A escassez de dados de alta qualidade, combinada com regulamentações rigorosas de privacidade e o alto custo de anotação manual, impulsionou a adoção da geração de dados sintéticos como uma alternativa viável aos \textit{datasets} reais~\cite{lu2023}. 
+Dados sintéticos são definidos como informações artificialmente geradas por algoritmos ou simulações que mimetizam as propriedades estatísticas e comportamentais dos dados reais, sem conter informações diretamente identificáveis. No contexto de sistemas de Inteligência Artificial seguros e privados, a geração de dados sintéticos não atua apenas como uma ferramenta de aumento de dados (\textit{data augmentation}), mas como um mecanismo fundamental de preservação de privacidade e robustez\cite{goyal2024}.
 \subsection{Técnicas de Geração Baseadas em IA Generativa}
 A literatura recente categoriza as abordagens de geração de dados sintéticos principalmente em três arquiteturas de aprendizado profundo:
-
 \begin{enumerate}
-    \item \textbf{Redes Adversárias Generativas (GANs):} Consistem em dois modelos neurais, um gerador e um discriminador, que competem entre si. O gerador cria dados falsos e o discriminador tenta distinguir entre dados reais e falsos. GANs são amplamente utilizadas para síntese de imagens e dados tabulares, com variantes aplicadas especificamente para preservar a estrutura estatística de dados sensíveis \cite{goyal2024}.
-    \item \textbf{Autoencoders Variacionais (VAEs):} Os VAEs aprendem a comprimir os dados de entrada em um espaço latente probabilístico e, em seguida, reconstróem os dados a partir desse espaço, permitindo a amostragem de novos pontos de dados que seguem a distribuição original \cite{lu2023}.
-    \item \textbf{Grandes Modelos de Linguagem (LLMs):} Avanços recentes, como apontado por Nadăş et al. \cite{nadas2025}, demonstram que LLMs podem atuar como geradores de dados universais para texto e código. Através de técnicas de \textit{prompting} e refinamento iterativo, LLMs podem gerar dados rotulados e código sintético verificável via execução, auxiliando no treinamento de modelos de segurança de software.
+    \item \textbf{Redes Adversárias Generativas (GANs):} Consistem em dois modelos neurais, um gerador e um discriminador, que competem entre si. O gerador cria dados falsos e o discriminador tenta distinguir entre dados reais e falsos. GANs são amplamente utilizadas para síntese de imagens e dados tabulares, com variantes aplicadas especificamente para preservar a estrutura estatística de dados sensíveis~\cite{goyal2024}.
+    \item \textbf{Autoencoders Variacionais (VAEs):} Os VAEs aprendem a comprimir os dados de entrada em um espaço latente probabilístico e, em seguida, reconstróem os dados a partir desse espaço, permitindo a amostragem de novos pontos de dados que seguem a distribuição original~\cite{lu2023}.
+    \item \textbf{Grandes Modelos de Linguagem (LLMs):} Avanços recentes, como apontado por Nadăş et al.~\cite{nadas2025}, demonstram que LLMs podem atuar como geradores de dados universais para texto e código. 
+    Através de técnicas de \textit{prompting} e refinamento iterativo, LLMs podem gerar dados rotulados e código sintético verificável via execução, 
+    auxiliando no treinamento de modelos de segurança de software.
 \end{enumerate}
-
 \subsection{Sinergia com Mecanismos de Privacidade e Segurança}
 A geração de dados sintéticos desempenha um papel estratégico quando integrada às técnicas de \textit{Differential Privacy}, \textit{Federated Learning} e \textit{Machine Unlearning}.
 
 \subsubsection{Privacidade Diferencial (DP).}
-A aplicação direta de modelos gerativos em dados sensíveis pode resultar em riscos de privacidade, como ataques de inferência de pertinência (\textit{membership inference attacks}). Para mitigar isso, a geração de dados sintéticos é frequentemente acoplada à Privacidade Diferencial \cite{lu2023}. O objetivo é gerar um \textit{dataset} sintético que preserve as propriedades estatísticas globais, mas garanta que a saída do modelo não dependa excessivamente de nenhum registro individual. Técnicas como DP-GAN integram ruído calibrado garantindo garantias formais de privacidade ($\epsilon$-differential privacy), permitindo que dados sintéticos sejam compartilhados publicamente com risco minimizado.
+A aplicação direta de modelos gerativos em dados sensíveis pode resultar em riscos de privacidade, como ataques de inferência de pertinência (\textit{membership inference attacks}). Para mitigar isso, a geração de dados sintéticos é frequentemente acoplada à Privacidade Diferencial~\cite{lu2023}. 
+O objetivo é gerar um \textit{dataset} sintético que preserve as propriedades estatísticas globais, mas garanta que a saída do modelo não dependa excessivamente de nenhum registro individual. Técnicas como DP-GAN integram ruído calibrado garantindo garantias formais de privacidade ($\epsilon$-differential privacy), permitindo que dados sintéticos sejam compartilhados publicamente com risco minimizado.
 
 \subsubsection{Aprendizado Federado (FL).}
-No Aprendizado Federado, a heterogeneidade dos dados é um desafio crítico. A geração de dados sintéticos oferece soluções em duas frentes \cite{goyal2024}:
+No Aprendizado Federado, a heterogeneidade dos dados é um desafio crítico. A geração de dados sintéticos oferece soluções em duas frentes~\cite{goyal2024}:
 \begin{enumerate}
     \item \textbf{Aumento de Dados Local:} Clientes com poucos dados podem usar modelos generativos para sintetizar amostras locais, melhorando a robustez do treinamento.
     \item \textbf{Privacidade Generativa Federada:} O treinamento de GANs em ambiente federado, onde apenas os parâmetros dos geradores são compartilhados, permite que o modelo global aprenda a distribuição de dados sem acesso direto aos registros brutos.
@@ -372,7 +480,7 @@ No Aprendizado Federado, a heterogeneidade dos dados é um desafio crítico. A g
 O \textit{Machine Unlearning} visa remover a influência de dados específicos de um modelo treinado. A geração de dados sintéticos atua como facilitador neste processo:
 \begin{enumerate}
     \item \textbf{Prevenção de Memorização:} O uso de dados sintéticos treinados com DP desde o início reduz a necessidade de \textit{unlearning} frequente, pois os dados não correspondem a indivíduos reais.
-    \item \textbf{Substituição de Dados:} Em cenários onde dados reais devem ser excluídos, dados sintéticos podem ser gerados para preencher a lacuna estatística deixada pela remoção, mantendo a utilidade do modelo sem violar a privacidade \cite{nadas2025}.
+    \item \textbf{Substituição de Dados:} Em cenários onde dados reais devem ser excluídos, dados sintéticos podem ser gerados para preencher a lacuna estatística deixada pela remoção, mantendo a utilidade do modelo sem violar a privacidade~\cite{nadas2025}.
 \end{enumerate}
 \section{Conclusão}
 
