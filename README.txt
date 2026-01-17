@@ -107,7 +107,9 @@ ESTRUTURA DO ARTIGO
 O artigo segue o formato Springer LNCS e contém:
 
 1. INTRODUÇÃO
-   - Contextualização e motivação
+   - Contextualização do problema e apresentação das quatro técnicas
+   - Contextualização - Descrição detalhada de cada técnica
+   - Metodologia de Revisão Sistemática
 
 2. CARACTERIZAÇÃO FERRAMENTAL
    - Machine Unlearning

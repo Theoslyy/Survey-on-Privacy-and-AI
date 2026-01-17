@@ -80,14 +80,41 @@ desaprendizado de máquina,
 e geração de dados sintéticos~\cite{goyal2024,nadas2025,lu2023}.
 Ao longo deste survey, analisamos as características, aplicações e limitações de cada técnica,
 bem como suas sinergias e desafios de implementação prática.
+\subsection{Contextualização}
+\textbf{Federated Learning.}
+O aprendizado federado~\cite{mcmahan2017communication,zhang2021survey} permite que múltiplos dispositivos ou organizações
+colaborem no treinamento de um modelo global sem compartilhar seus dados brutos.
+Ao manter os dados localmente e transmitir apenas atualizações de modelo,
+essa abordagem reduz significativamente os riscos de vazamento de informações sensíveis
+e viabiliza o treinamento em cenários onde a centralização de dados é inviável ou indesejável.
+
+\textbf{Differential Privacy.}
+A privacidade diferencial~\cite{mcmahan2018learning} fornece garantias formais e quantificáveis
+sobre o nível de privacidade preservado durante o treinamento de modelos.
+Através da adição controlada de ruído estatístico aos dados ou aos parâmetros do modelo,
+essa técnica limita a capacidade de adversários inferirem informações sobre indivíduos específicos,
+mesmo quando têm acesso ao modelo treinado.
+
+\textbf{Machine Unlearning.}
+O desaprendizado de máquina responde à demanda regulatória e ética do direito ao esquecimento,
+permitindo remover seletivamente a influência de dados específicos de modelos já treinados
+sem comprometer significativamente seu desempenho.
+Essa capacidade é essencial para conformidade com regulamentações que garantem aos usuários
+o direito de solicitar a exclusão de suas informações pessoais.
+
+\textbf{Geração de Dados Sintéticos.}
+A geração de dados sintéticos~\cite{goyal2024,nadas2025,lu2023} utiliza técnicas de IA generativa
+para produzir dados artificiais que preservam propriedades estatísticas relevantes
+sem expor informações individuais.
+Além de facilitar o compartilhamento de dados para pesquisa e desenvolvimento,
+essa abordagem oferece soluções para problemas de escassez de dados e desbalanceamento de classes.
 \subsection{Metodologia de Revisão Sistemática}
 Esta revisão sistemática foi conduzida com o objetivo de identificar e analisar
 as principais técnicas de preservação de privacidade em sistemas de Inteligência Artificial.
 A metodologia adotada seguiu um processo estruturado de busca, seleção e análise de trabalhos científicos,
 priorizando publicações de alto impacto e relevância para o tema.
 
-\textbf{Bases de dados consultadas}
-
+\textbf{Bases de dados consultadas.}
 A busca bibliográfica foi realizada nas seguintes bases de dados acadêmicas:
 \begin{itemize}
     \item \textit{Google Scholar} (base principal)
@@ -97,8 +124,7 @@ A busca bibliográfica foi realizada nas seguintes bases de dados acadêmicas:
     \item \textit{Springer Link}
 \end{itemize}
 
-\textbf{Estratégia de busca}
-
+\textbf{Estratégia de busca.}
 Foram utilizadas combinações de termos-chave relacionados às quatro áreas principais de interesse:
 \textit{federated learning}, \textit{differential privacy}, \textit{machine unlearning} e \textit{synthetic data generation}.
 A busca priorizou artigos com alto número de citações (preferencialmente acima de 100 citações),
@@ -107,8 +133,7 @@ Além disso, foram considerados trabalhos publicados em conferências e periódi
 como IEEE \textit{Symposium on Security and Privacy}, ACM \textit{Conference on Computer and Communications Security} (CCS),
 e periódicos como \textit{Knowledge-Based Systems}, IEEE \textit{Access e Electronics}.
 
-\textbf{Critérios de seleção}
-
+\textbf{Critérios de seleção.}
 Os artigos foram selecionados com base nos seguintes critérios:
 \begin{enumerate}
     \item \textit{Relevância temática:} O trabalho deve abordar diretamente técnicas de preservação de privacidade em aprendizado de máquina.
@@ -118,8 +143,7 @@ Os artigos foram selecionados com base nos seguintes critérios:
     \item \textit{Atualidade:} Priorização de trabalhos recentes (2017-2025), embora trabalhos seminais mais antigos também tenham sido incluídos.
 \end{enumerate}
 
-\textbf{Processo de triagem}
-
+\textbf{Processo de triagem.}
 O processo de seleção foi conduzido em três etapas:
 \begin{enumerate}
     \item \textit{Busca inicial:} Aproximadamente 50 artigos foram identificados com base nos termos de busca e filtros de citação.
@@ -127,8 +151,7 @@ O processo de seleção foi conduzido em três etapas:
     \item \textit{Leitura completa e rastreamento de referências:} Os artigos pré-selecionados foram lidos integralmente, e suas referências foram rastreadas para identificar trabalhos adicionais relevantes. Após essa etapa, 16 artigos foram selecionados para compor a base bibliográfica final deste \textit{survey}.
 \end{enumerate}
 
-\textbf{Trabalhos selecionados}
-
+\textbf{Trabalhos selecionados.}
 A lista final de 16 referências inclui trabalhos seminais e \textit{surveys} abrangentes em cada uma das quatro áreas principais:
 \begin{itemize}
     \item \textit{Federated Learning:} Zhang et al.~\cite{zhang2021survey} apresentam um \textit{survey} abrangente sobre aprendizado federado; McMahan et al.~\cite{mcmahan2017communication} propõem o algoritmo FedAvg; Bonawitz et al.~\cite{bonawitz2017practical,bonawitz2019towards} desenvolvem protocolos de agregação segura e sistemas em larga escala.
