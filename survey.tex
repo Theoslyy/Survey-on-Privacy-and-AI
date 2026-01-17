@@ -302,7 +302,6 @@ além de explicitar os desafios atuais do estudo na área.
         \item\textit{Implementação em Machine Unlearning:} Garantir que um modelo possa perder completamente um dado de forma diferencialmente privada sem precisar ser treinado novamente do zero continua sendo uma fronteira de pesquisa ativa e complexa~\cite{DP07}.
     \end{enumerate}
 \end{enumerate}
-\newpage
 \subsection{Federated learning}
 \textbf{Contexto.} Algoritmos clássicos de aprendizado de máquina normalmente assumem
 que os dados de treinamento estão disponíveis de forma centralizada.
@@ -330,6 +329,7 @@ mantendo a fase de treinamento como uma etapa local. Cada dispositivo somente re
 central seu modelo treinado localmente e atualizará o seu modelo interno conforme as atualizações no modelo global.
 Sob essa arquitetura, os dados permanecem nos dispositivos locais e a comunicação
 é restrita a parâmetros ou gradientes, reduzindo o risco de exposição de dados sensíveis.
+\newline
 \begin{figure}
 \centering
 \begin{tikzpicture}[
@@ -363,11 +363,11 @@ Sob essa arquitetura, os dados permanecem nos dispositivos locais e a comunicaç
 
 \draw[->, looseness=6, out=5, in=-10]
 (c3) edge node[right]{\small Treinamento local} (c3);
-
 \end{tikzpicture}
 \caption{Fluxo básico do aprendizado federado.}\label{fig:federated_learning}
 \end{figure}
-\newpage\textbf{Diferenciação.} 
+\newline
+\textbf{Diferenciação.} 
 \begin{enumerate}
 \item\textbf{Com relação à partição dos dados.} 
 A classificação mais tradicional do federated learning diz respeito à forma como os dados estão distribuídos entre as entidades participantes. 
