@@ -88,15 +88,15 @@ Lista completa disponível em `refs.bib` (16 referências).
 
 O artigo segue o formato Springer LNCS e contém:
 
-1. **Introdução** - Contextualização e motivação
-2. **Critérios de Busca** - Metodologia da revisão sistemática
-3. **Caracterização Ferramental** - Análise detalhada das técnicas:
+1. **Introdução** - Contextualização, motivação e apresentação das quatro técnicas principais
+   - Metodologia de Revisão Sistemática
+2. **Caracterização Ferramental** - Análise detalhada das técnicas:
    - Machine Unlearning
    - Differential Privacy
    - Federated Learning (com taxonomia completa)
-4. **Geração de Dados Sintéticos** - GANs, VAEs, LLMs e sinergia com outras técnicas
-5. **Desafios** - Limitações e direções futuras
-6. **Bibliografia** - 16 referências
+3. **Geração de Dados Sintéticos** - GANs, VAEs, LLMs e sinergia com outras técnicas
+4. **Conclusão** - Síntese, desafios e direções futuras
+5. **Bibliografia** - 16 referências
 
 ### Apresentação em Vídeo
 

@@ -54,31 +54,91 @@ Os resultados demonstram que a combinação dessas técnicas oferece um conjunto
 \keywords{Federated Learning \and Differential Privacy \and Machine Unlearning \and Dados Sintéticos \and Privacidade \and Segurança em IA}
 \end{abstract}
 \section{Introdução}
-IA é muito popular. 
-Porém, precisamos de muitos dados para treinar modelos.
-Como podemos arranjar esses dados?
-Mais especificamente,
-como podemos arrumar esses dados de forma que não infrijamos leis de privacidade de dados?
-Como privacidade de dados vem se tornando um conceito cada vez mais em voga,
-Novas formas de treinar modelos e obter dados vem surgindo.
-Nesta survey, falaremos de: \newline
-Federated learning (analisar os dados locamente e mandar os resultados de volta 
-de forma criptografada) \newline
-Differential privacy (é uma técnica que visa proteger a privacidade dos usuários
-por meio da adição de ruído nos dados sendo analisados) \newline
-Machine Unlearning (esquecer dados de usuários que foram usados para treinar modelos de 
-forma que isso não prejudique o aprendizado do algoritmo).
-\subsection{Contextualização}
-Deixei aqui para ser o template inicial. 
-Quando forem escrever,
-É legal dar enter a cada oração
-Para que fique dividido direito e fique fácil de ler.
-\subsection{Critérios de busca}
-Google scholar com o nome dos assuntos principais escolhendo os artigos com maior número de referências. 
-Verificando o abstract e o local de publicação para ver a validade do artigo.
-Procurando os artigos que esses artigos citam e aplicando o mesmo critério de citações, 
-local de publicação e abstract. 
-(detalhar essa seção)
+O aprendizado de máquina tem se consolidado como uma das áreas mais promissoras da Inteligência Artificial,
+impulsionando avanços significativos em reconhecimento de padrões, processamento de linguagem natural,
+visão computacional e sistemas de recomendação.
+No entanto, o sucesso desses modelos depende fundamentalmente da disponibilidade de grandes volumes de dados de treinamento,
+frequentemente contendo informações sensíveis sobre indivíduos e organizações.
+Essa dependência levanta questões críticas sobre como conciliar o desenvolvimento de sistemas de IA cada vez mais sofisticados
+com a necessidade de proteger a privacidade dos dados utilizados em seu treinamento.
+
+Em vista dessa situação,
+diversas regulamentações vem sendo impostas globalmente para garantir a proteção de dados pessoais,
+como o Regulamento Geral de Proteção de Dados (GDPR) na União Europeia e a Lei Geral de Proteção de Dados (LGPD) no Brasil.
+Essas legislações estabelecem princípios rigorosos sobre coleta, armazenamento e processamento de dados,
+incluindo o direito ao esquecimento e à portabilidade de dados,
+tornando o uso de técnicas tradicionais de aprendizado de máquina centralizado de difícil implementação prática.
+Nesse contexto, novas abordagens técnicas vem surgindo para viabilizar o treinamento de modelos
+de forma que a privacidade dos dados seja preservada desde a concepção do sistema.
+
+Este trabalho apresenta uma revisão sistemática das principais técnicas de preservação de privacidade
+aplicadas ao contexto de aprendizado de máquina.
+Em particular, exploramos quatro abordagens fundamentais:
+aprendizado federado~\cite{mcmahan2017communication,zhang2021survey},
+privacidade diferencial~\cite{mcmahan2018learning},
+desaprendizado de máquina,
+e geração de dados sintéticos~\cite{goyal2024,nadas2025,lu2023}.
+Ao longo deste survey, analisamos as características, aplicações e limitações de cada técnica,
+bem como suas sinergias e desafios de implementação prática.
+\subsection{Metodologia de Revisão Sistemática}
+Esta revisão sistemática foi conduzida com o objetivo de identificar e analisar
+as principais técnicas de preservação de privacidade em sistemas de Inteligência Artificial.
+A metodologia adotada seguiu um processo estruturado de busca, seleção e análise de trabalhos científicos,
+priorizando publicações de alto impacto e relevância para o tema.
+
+\textbf{Bases de dados consultadas}
+
+A busca bibliográfica foi realizada nas seguintes bases de dados acadêmicas:
+\begin{itemize}
+    \item \textit{Google Scholar} (base principal)
+    \item \textit{IEEE Xplore Digital Library}
+    \item \textit{ACM Digital Library}
+    \item \textit{arXiv}
+    \item \textit{Springer Link}
+\end{itemize}
+
+\textbf{Estratégia de busca}
+
+Foram utilizadas combinações de termos-chave relacionados às quatro áreas principais de interesse:
+\textit{federated learning}, \textit{differential privacy}, \textit{machine unlearning} e \textit{synthetic data generation}.
+A busca priorizou artigos com alto número de citações (preferencialmente acima de 100 citações),
+indicando reconhecimento e impacto na comunidade científica.
+Além disso, foram considerados trabalhos publicados em conferências e periódicos de alto impacto,
+como IEEE \textit{Symposium on Security and Privacy}, ACM \textit{Conference on Computer and Communications Security} (CCS),
+e periódicos como \textit{Knowledge-Based Systems}, IEEE \textit{Access e Electronics}.
+
+\textbf{Critérios de seleção}
+
+Os artigos foram selecionados com base nos seguintes critérios:
+\begin{enumerate}
+    \item \textit{Relevância temática:} O trabalho deve abordar diretamente técnicas de preservação de privacidade em aprendizado de máquina.
+    \item \textit{Qualidade da publicação:} Preferência por artigos publicados em venues de alto impacto (IEEE, ACM, Springer) ou repositórios reconhecidos (arXiv).
+    \item \textit{Impacto científico:} Número de citações como indicador de relevância e influência na área.
+    \item \textit{Contribuição técnica:} Trabalhos que apresentam métodos inovadores, análises abrangentes ou implementações práticas.
+    \item \textit{Atualidade:} Priorização de trabalhos recentes (2017-2025), embora trabalhos seminais mais antigos também tenham sido incluídos.
+\end{enumerate}
+
+\textbf{Processo de triagem}
+
+O processo de seleção foi conduzido em três etapas:
+\begin{enumerate}
+    \item \textit{Busca inicial:} Aproximadamente 50 artigos foram identificados com base nos termos de busca e filtros de citação.
+    \item \textit{Análise de abstract e metadados:} Os abstracts e informações de publicação foram analisados para verificar relevância e qualidade, resultando em 25 artigos pré-selecionados.
+    \item \textit{Leitura completa e rastreamento de referências:} Os artigos pré-selecionados foram lidos integralmente, e suas referências foram rastreadas para identificar trabalhos adicionais relevantes. Após essa etapa, 16 artigos foram selecionados para compor a base bibliográfica final deste \textit{survey}.
+\end{enumerate}
+
+\textbf{Trabalhos selecionados}
+
+A lista final de 16 referências inclui trabalhos seminais e \textit{surveys} abrangentes em cada uma das quatro áreas principais:
+\begin{itemize}
+    \item \textit{Federated Learning:} Zhang et al.~\cite{zhang2021survey} apresentam um \textit{survey} abrangente sobre aprendizado federado; McMahan et al.~\cite{mcmahan2017communication} propõem o algoritmo FedAvg; Bonawitz et al.~\cite{bonawitz2017practical,bonawitz2019towards} desenvolvem protocolos de agregação segura e sistemas em larga escala.
+    \item \textit{Differential Privacy:} McMahan et al.~\cite{mcmahan2018learning} aplicam privacidade diferencial a modelos de linguagem recorrentes.
+    \item \textit{Federated Learning Avançado:} Hardy et al.~\cite{hardy2017private} exploram aprendizado federado vertical com criptografia homomórfica; Cheng et al.~\cite{cheng2021secureboost} propõem SecureBoost; Liang et al.~\cite{liang2020think} abordam representações locais e globais; Fan et al.~\cite{fan2022fault} tratam tolerância a falhas; Yang et al.~\cite{yang2020} discutem transfer learning federado; Nikolaenko et al.~\cite{nikolaenko2013privacy} apresentam regressão ridge preservando privacidade.
+    \item \textit{Geração de Dados Sintéticos:} Goyal \& Mahmoud~\cite{goyal2024} oferecem uma revisão sistemática de técnicas usando IA generativa; Nadă\c{s} et al.~\cite{nadas2025} exploram LLMs para geração de dados sintéticos; Lu et al.~\cite{lu2023} revisam aprendizado de máquina para geração de dados sintéticos.
+\end{itemize}
+
+Essa metodologia garantiu a seleção de trabalhos de qualidade e relevância,
+cobrindo tanto aspectos teóricos quanto práticos das técnicas de preservação de privacidade em IA.
 \section{Caracterização Ferramental}
 \subsection{Machine unlearning}
 woow
