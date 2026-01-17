@@ -82,7 +82,7 @@ Importe o projeto completo no Overleaf para compilação automática.
 6. **Hardy et al. (2017)** - "Private federated learning on vertically partitioned data" (arXiv)
 7. **Liang et al. (2020)** - "Think Locally, Act Globally: Federated Learning with Local and Global Representations" (arXiv)
 
-Lista completa disponível em `refs.bib` (16 referências).
+Lista completa disponível em `refs.bib` (21 referências).
 
 ### Estrutura do Artigo
 
