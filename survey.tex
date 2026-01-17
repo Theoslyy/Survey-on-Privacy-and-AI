@@ -162,8 +162,8 @@ quanto práticos das técnicas de preservação de privacidade em IA.\@
 
 \section{Caracterização Ferramental}
 \subsection{Machine unlearning}
-\textbf{Contexto.} Desaprendizado de Máquina (ou Machine Unlearning), é um ramo da Aprendizagem de Máquina com foco em realizar um processo de remoção de dados específicos de um modelo após este já ter sido treinado, sem precisar retreiná-lo do zero. 
-Sua proposta surgiu a partir da necessidade de fazer um modelo de aprendizado de máquina ser capaz de remover determinados tipos de dados usados em seu treinamento, como aqueles com desinformação, conteúdo sensível, informação datada e entre outros, quando o artigo 17 do Regulamento Geral sobre a Proteção de Dados da União Europeia entrou em vigor em 2014.
+\textbf{Contexto.} Desaprendizado de Máquina (ou Machine Unlearning), é um ramo da Aprendizagem de Máquina com foco em realizar um processo de remoção de dados específicos de um modelo após este já ter sido treinado, sem precisar retreiná-lo do zero ~\cite{bourtoule2021machine}. 
+Sua proposta surgiu a partir da necessidade de fazer um modelo de aprendizado de máquina ser capaz de remover determinados tipos de dados usados em seu treinamento, como aqueles com desinformação, conteúdo sensível, informação datada e entre outros, quando o artigo 17 do Regulamento Geral sobre a Proteção de Dados da União Europeia entrou em vigor em 2014~\cite{bourtoule2021machine}.
 Embora a ideia pareça simples, apagar dados usados para treinamento do banco de dados não implica na remoção de informações relacionadas a esses dados do modelo. Uma solução seria re-treinar a máquina sem os dados removidos, mas isso é computacionalmente custoso. 
 Portanto, para resolver este problema, surgiram estratégias variadas de machine unlearning mais eficientes para o problema:
 \begin{enumerate}
@@ -173,7 +173,7 @@ Portanto, para resolver este problema, surgiram estratégias variadas de machine
 \end{enumerate}
 \textbf{Tipos.}
 \begin{enumerate}
-    \item\textbf{SISA:} Acrônimo para Shared, Isolated, Sliced, Aggregated, a estratégia SISA permite a remoção de dados específicos sem a necessidade de retreinar o modelo inteiro do zero, tornando, dessa forma, a desaprendizagem de máquina mais eficiente e menos custosa computacionalmente.  A seguir, pode-se ver uma explicação breve de cada componente dessa estratégia:
+    \item\textbf{SISA:} Acrônimo para Shared, Isolated, Sliced, Aggregated, a estratégia SISA permite a remoção de dados específicos sem a necessidade de retreinar o modelo inteiro do zero, tornando, dessa forma, a desaprendizagem de máquina mais eficiente e menos custosa computacionalmente~\cite{bourtoule2021machine}.  A seguir, pode-se ver uma explicação breve de cada componente dessa estratégia:
     \begin{enumerate}
     \item\textit{Sharding:} A fragmentação divide o conjunto de dados em subconjuntos disjuntos, chamados de Shards. Cada shard é utilizado para treinar uma parte do modelo de maneira separada. Dessa forma, a mudança de dados modifica apenas aquele subconjunto;
     \item\textit{Isolation:} Consiste em treinar cada subconjunto maneira independente, sem que haja qualquer troca de informação entre diferentes shards. Assim, o isolamento evita a contaminação cruzada, garantindo com que a mudança de dado só afetará ao shard que o contém.
@@ -182,12 +182,42 @@ Portanto, para resolver este problema, surgiram estratégias variadas de machine
     \end{enumerate}
     \item\textbf{Manipulação de Gradiente:} Diferente da estratégia SISA, 
     que procura dividir o conjunto em subconjuntos,  a proposta da manipulação de gradiente se baseia na remoção da influência de uma amostra de dados do modelo já treinado, de forma matemática, alterando os parâmetros de forma direta.
-	Durante o treinamento dos modelos, cada dado entrega um gradiente o qual desloca os pesos do modelo em determinada direção. Após isto, há uma estimativa de contribuição passada e se aplica o reajuste inverso, em que os parâmetros são movidos para uma área do espaço dos modelos onde o dado removido nunca existiu.
-	Essa estratégia não garante um modelo resultante exato, diferente do que seria obtido realizando o re-treinamento do zero. Em modelos mais complexos, a influência exercida por um dado é distribuída por diversos parâmetros, fazendo com que a manipulação de gradiente seja impossível de ser inteiramente eficiente.
-    \item\textbf{Otimização Professor-Aluno:} A estratégia da otimização Professor-Aluno é baseada em destilação de conhecimento, ou seja, transferência de conhecimento de um modelo grande para outro menor. Nessa estratégia, a ideia é que um novo modelo, rotulado como Aluno, imite o modelo grande, rotulado como Professor, sem usar os dados que desejam ser removidos.
-	O processo funciona com o modelo professor encapsulando o conhecimento que foi obtido na sua totalidade por todos os dados informados, enquanto o modelo aluno obtém o conhecimento pelas saídas do professor, limitando-se aos dados permitidos. Por meio disso, o modelo Aluno se comporta exatamente como o modelo Professor se determinados dados removidos nunca tivessem sido adicionados.
+	Durante o treinamento dos modelos, cada dado entrega um gradiente o qual desloca os pesos do modelo em determinada direção. Após isto, há uma estimativa de contribuição passada e se aplica o reajuste inverso, em que os parâmetros são movidos para uma área do espaço dos modelos onde o dado removido nunca existiu ~\cite{koh2017understanding,golatkar2020eternal,guo2020certified}. 
+	Essa estratégia não garante um modelo resultante exato, diferente do que seria obtido realizando o re-treinamento do zero. Em modelos mais complexos, a influência exercida por um dado é distribuída por diversos parâmetros, fazendo com que a manipulação de gradiente seja impossível de ser inteiramente eficiente. ~\cite{golatkar2020eternal,guo2020certified}
+    \item\textbf{Otimização Professor-Aluno:} A estratégia da otimização Professor-Aluno é baseada em destilação de conhecimento, ou seja, transferência de conhecimento de um modelo grande para outro menor. Nessa estratégia, a ideia é que um novo modelo, rotulado como Aluno, imite o modelo grande, rotulado como Professor, sem usar os dados que desejam ser removidos ~\cite{hinton2015distilling,bourtoule2021machine}.
+	O processo funciona com o modelo professor encapsulando o conhecimento que foi obtido na sua totalidade por todos os dados informados, enquanto o modelo aluno obtém o conhecimento pelas saídas do professor, limitando-se aos dados permitidos. Por meio disso, o modelo Aluno se comporta exatamente como o modelo Professor se determinados dados removidos nunca tivessem sido adicionados~\cite{hinton2015distilling}.
 	Assim como os dois métodos anteriores, o sistema Professor-Aluno não garante os resultados exatos. Se, por exemplo, o modelo Professor conter informações sensíveis, esse conhecimento pode ser passado para o modelo Aluno através de predições. 
 \end{enumerate}
+\textbf{Conclusões.} \textit{Machine Unlearning} surge como uma resposta à necessidade de regulamentação da proteção de dados, especialmente na remoção de dados, imposta por legislações modernas. o Desaprendizado de Máquina oferece soluções que garantem determinadas vantagens, desvantagens e desafios, os quais podemos ver a seguir:
+\begin{enumerate}
+    \item\textbf{Vantagens}
+    \begin{enumerate}
+        \item\textit{Eficiência Computacional:} Com \textit{Machine Unlearning}, o custo computacional e o tempo total de atualização do modelos são reduzidos de maneira significativa~\cite{bourtoule2021machine,golatkar2020eternal};
+        
+        \item\textit{Respostas ágeis:} Por serem estratégias que garantem a alteração do modelo sem ter que re-calcular desde o início, o desaprendizado de máquina possibilita a remoção de dados de maneira rápida caso seja solicitado~\cite{bourtoule2021machine};
+        
+        \item\textit{Governança sobre os Dados:} Como \textit{Machine Unlearning} permite a remoção de dados re maneira ágil e sem gerar custos, isso garante políticas de gestão de dados, permitindo a alteração do modelo de maneira controlada e transparente.       
+    \end{enumerate}
+
+\item\textbf{Desvantagens}
+    \begin{enumerate}
+        \item\textit{Ausência de garantia:} Embora as abordagens do desaprendizado de máquina sejam práticas, elas não garantem que o resultado final do modelo seja exatamente igual ao que fosse caso tenha sido treinado do zero, podendo manter elementos influenciados pelos dados removidos ~\cite{DP06};
+        
+        \item\textit{Complexidade de implementação:} As técnicas de desaprendizagem exigem diversas modificações que são significativas no treinamento do modelo, sendo difícil de implementar nos modelos já existentes;
+        
+        \item\textit{Custo de Armazento:} As estratégias de \textit{Machine Unlearning} exigem armazenamento de diversos modelos, grandes conjuntos de dados e entre outros, o que torna inviável em determinados ambientes.
+    \end{enumerate}
+
+\item\textbf{Desafios}
+    \begin{enumerate}
+        \item\textit{Equilíbrio entre privacidade e eficiência:} Os modelos possibilitam a remoção de dados, mas podem prejudicar a confiabilidade do modelo. Um dos principais desafios consiste nessa conciliação de privacidade de dados e a eficiência do modelo após alterações~\cite{bourtoule2021machine,DP06};
+        
+        \item\textit{Automação de Processo:} Por ainda ser recente, ainda se tem como desafia a criação de sistemas capazes de lidar com os pedidos de \textit{unlearning} de forma automatizada;
+        
+        \item\textit{Aplicação em cenários reais:} Assim como no item anterior, o fato de \textit{Machine Unlearning} ser recente, ainda existem desafios na aplicação dos métodos em cenários reais, como em ambientes de aprendizado distribuído, sistemas de escala industrial, sistemas governamentais e entre outros.
+    \end{enumerate}
+\end{enumerate}
+
 \subsection{Differential privacy}
 \textbf{Contexto.} A Privacidade Diferencial (DP) foi formalmente proposta em 2006 por Cynthia Dwork e seus colaboradores como uma forma de assegurar
  a privacidade dos dados, fornecendo uma robusta garantia matemática, 
@@ -478,7 +508,7 @@ No Aprendizado Federado, a heterogeneidade dos dados é um desafio crítico. A g
 
 \subsubsection{Machine Unlearning.}
 O \textit{Machine Unlearning} visa remover a influência de dados específicos de um modelo treinado. A geração de dados sintéticos atua como facilitador neste processo:
-\begin{enumerate}
+\begin{enumerate} 
     \item \textbf{Prevenção de Memorização:} O uso de dados sintéticos treinados com DP desde o início reduz a necessidade de \textit{unlearning} frequente, pois os dados não correspondem a indivíduos reais.
     \item \textbf{Substituição de Dados:} Em cenários onde dados reais devem ser excluídos, dados sintéticos podem ser gerados para preencher a lacuna estatística deixada pela remoção, mantendo a utilidade do modelo sem violar a privacidade~\cite{nadas2025}.
 \end{enumerate}
