@@ -188,24 +188,22 @@ Portanto, para resolver este problema, surgiram estratégias variadas de machine
 	O processo funciona com o modelo professor encapsulando o conhecimento que foi obtido na sua totalidade por todos os dados informados, enquanto o modelo aluno obtém o conhecimento pelas saídas do professor, limitando-se aos dados permitidos. Por meio disso, o modelo Aluno se comporta exatamente como o modelo Professor se determinados dados removidos nunca tivessem sido adicionados~\cite{hinton2015distilling}.
 	Assim como os dois métodos anteriores, o sistema Professor-Aluno não garante os resultados exatos. Se, por exemplo, o modelo Professor conter informações sensíveis, esse conhecimento pode ser passado para o modelo Aluno através de predições. 
 \end{enumerate}
-\textbf{Conclusões.} \textit{Machine Unlearning} surge como uma resposta à necessidade de regulamentação da proteção de dados, especialmente na remoção de dados, imposta por legislações modernas. o Desaprendizado de Máquina oferece soluções que garantem determinadas vantagens, desvantagens e desafios, os quais podemos ver a seguir:
+\textbf{Conclusões.} \textit{Machine Unlearning} surge como uma resposta à necessidade de regulamentação da proteção de dados, especialmente na remoção de dados, imposta por legislações modernas. O Desaprendizado de Máquina oferece soluções que garantem determinadas vantagens, desvantagens e desafios.
 \begin{enumerate}
     \item\textbf{Vantagens}
     \begin{enumerate}
-        \item\textit{Eficiência Computacional:} Com \textit{Machine Unlearning}, o custo computacional e o tempo total de atualização do modelos são reduzidos de maneira significativa~\cite{bourtoule2021machine,golatkar2020eternal};
-        
-        \item\textit{Respostas ágeis:} Por serem estratégias que garantem a alteração do modelo sem ter que re-calcular desde o início, o desaprendizado de máquina possibilita a remoção de dados de maneira rápida caso seja solicitado~\cite{bourtoule2021machine};
-        
+        \item\textit{Eficiência Computacional:} Com técnicas eficientes de \textit{Machine Unlearning}, o custo computacional e o tempo total de atualização do modelos são reduzidos de maneira significativa em comparação com o simples re-treinamento do modelo do zero~\cite{bourtoule2021machine,golatkar2020eternal}.        
         \item\textit{Governança sobre os Dados:} Como \textit{Machine Unlearning} permite a remoção de dados re maneira ágil e sem gerar custos, isso garante políticas de gestão de dados, permitindo a alteração do modelo de maneira controlada e transparente.       
     \end{enumerate}
 
 \item\textbf{Desvantagens}
     \begin{enumerate}
-        \item\textit{Ausência de garantia:} Embora as abordagens do desaprendizado de máquina sejam práticas, elas não garantem que o resultado final do modelo seja exatamente igual ao que fosse caso tenha sido treinado do zero, podendo manter elementos influenciados pelos dados removidos ~\cite{DP06};
+        \item\textit{Ausência de garantia:} Embora as abordagens do desaprendizado de máquina sejam práticas, elas não garantem que o resultado final do modelo seja exatamente igual ao que fosse caso tenha sido treinado do zero~\cite{DP06}. 
+        Esse fato foi frequentemente postulado durante as explicações, nesta survey, das principais técnicas de \textit{Machine Unlearning}.
         
-        \item\textit{Complexidade de implementação:} As técnicas de desaprendizagem exigem diversas modificações que são significativas no treinamento do modelo, sendo difícil de implementar nos modelos já existentes;
+        \item\textit{Complexidade de implementação:} As técnicas de desaprendizagem exigem diversas modificações que são significativas no treinamento do modelo, sendo difícil de implementar nos modelos já existentes.
         
-        \item\textit{Custo de Armazento:} As estratégias de \textit{Machine Unlearning} exigem armazenamento de diversos modelos, grandes conjuntos de dados e entre outros, o que torna inviável em determinados ambientes.
+        \item\textit{Custo de Armazento:} As estratégias de \textit{Machine Unlearning} exigem armazenamento de múltiplos modelos e, possivelmente, várias cópias de dados diferentes, diferentemente de técnicas tradicionais, o que torna implementações de \textit{Machine Unlearning} dispendiosas em relação à memória.
     \end{enumerate}
 
 \item\textbf{Desafios}
@@ -214,7 +212,7 @@ Portanto, para resolver este problema, surgiram estratégias variadas de machine
         
         \item\textit{Automação de Processo:} Por ainda ser recente, ainda se tem como desafia a criação de sistemas capazes de lidar com os pedidos de \textit{unlearning} de forma automatizada;
         
-        \item\textit{Aplicação em cenários reais:} Assim como no item anterior, o fato de \textit{Machine Unlearning} ser recente, ainda existem desafios na aplicação dos métodos em cenários reais, como em ambientes de aprendizado distribuído, sistemas de escala industrial, sistemas governamentais e entre outros.
+        \item\textit{Aplicação em cenários reais:} Ainda existem desafios na aplicação dos métodos em cenários reais, como em ambientes de aprendizado distribuído, sistemas de escala industrial, sistemas governamentais e entre outros.
     \end{enumerate}
 \end{enumerate}
 
